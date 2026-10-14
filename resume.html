@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>John Kenneth E. Buhay — Resume / Curriculum Vitae</title>
+  <meta name="description" content="Official Resume of John Kenneth E. Buhay — Junior Mobile Application Developer & Fresh Graduate.">
+  <meta name="author" content="John Kenneth E. Buhay">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="assets/photo/jkb-logo.jpg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-dark: #0a0a0c;
+      --card-bg: #111116;
+      --accent: #6366f1;
+      --text: #0f172a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #334155;
+      line-height: 1.55;
+      padding: 30px 15px 60px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Print & Action Bar */
+    .action-bar {
+      width: 100%;
+      max-width: 850px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-back {
+      background: rgba(255, 255, 255, 0.08);
+      color: #f8fafc;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-back:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-2px);
+    }
+
+    .btn-print {
+      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+    }
+
+    .btn-print:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.55);
+    }
+
+    /* Paper Container (Matches A4 standard dimensions) */
+    .resume-paper {
+      background: #ffffff;
+      color: #0f172a;
+      width: 100%;
+      max-width: 850px;
+      padding: 50px 55px;
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .resume-header {
+      text-align: center;
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+    }
+
+    .resume-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.95rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #0f172a;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .resume-role {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 8px;
+    }
+
+    .resume-contact {
+      font-size: 0.9rem;
+      color: #475569;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .resume-contact a {
+      color: #4f46e5;
+      text-decoration: underline;
+    }
+
+    .resume-section {
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #0f172a;
+      border-bottom: 1.5px solid #0f172a;
+      padding-bottom: 2px;
+      margin-bottom: 8px;
+    }
+
+    .summary-text {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #1e293b;
+      text-align: justify;
+    }
+
+    .entry {
+      margin-bottom: 12px;
+    }
+
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin-bottom: 2px;
+    }
+
+    .entry-title {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .entry-date {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .entry-subtitle {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 5px;
+    }
+
+    ul.bullets {
+      list-style-type: disc;
+      padding-left: 20px;
+      margin: 4px 0;
+    }
+
+    ul.bullets li {
+      font-size: 0.88rem;
+      color: #1e293b;
+      line-height: 1.5;
+      margin-bottom: 4px;
+    }
+
+    /* Skills Table */
+    .skills-grid {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.89rem;
+      margin-top: 4px;
+    }
+
+    .skills-grid td {
+      padding: 3px 0;
+      vertical-align: top;
+      color: #1e293b;
+    }
+
+    .skills-grid td.label-col {
+      width: 230px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .skills-grid td.colon-col {
+      width: 20px;
+      color: #64748b;
+    }
+
+    /* Print Styles (Strict A4 Optimization) */
+    @media print {
+      body {
+        background: transparent !important;
+        padding: 0 !important;
+        color: #000000 !important;
+      }
+
+      .action-bar {
+        display: none !important;
+      }
+
+      .resume-paper {
+        max-width: 100% !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+      }
+
+      a {
+        text-decoration: none !important;
+        color: inherit !important;
+      }
+
+      .resume-section {
+        page-break-inside: avoid;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .resume-paper {
+        padding: 28px 20px;
+      }
+      .resume-name {
+        font-size: 1.6rem;
+      }
+      .skills-grid td.label-col {
+        width: 160px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Floating Print & Back Action Bar -->
+  <div class="action-bar">
+    <a href="index.html#contact" class="btn btn-back">
+      <i class="fas fa-arrow-left"></i> Back to Portfolio
+    </a>
+
+    <div style="display: flex; gap: 10px;">
+      <a href="mailto:floreskenneth319@gmail.com" class="btn btn-back">
+        <i class="fas fa-envelope"></i> Email Kenneth
+      </a>
+      <button type="button" class="btn btn-print" onclick="window.print()">
+        <i class="fas fa-print"></i> Print / Save as PDF
+      </button>
+    </div>
+  </div>
+
+  <!-- A4 Printable Resume Sheet -->
+  <main class="resume-paper" id="resumeContent">
+    <!-- Header -->
+    <header class="resume-header">
+      <h1 class="resume-name">John Kenneth E. Buhay</h1>
+      <p class="resume-role">Junior Mobile Application Developer | Fresh Graduate</p>
+      <div class="resume-contact">
+        <span><i class="fas fa-map-marker-alt" style="margin-right: 4px;"></i> South Caloocan, Philippines</span>
+        <span>•</span>
+        <span><i class="fas fa-envelope" style="margin-right: 4px;"></i> <a href="mailto:floreskenneth319@gmail.com">floreskenneth319@gmail.com</a></span>
+        <span>•</span>
+        <span><i class="fas fa-phone-alt" style="margin-right: 4px;"></i> +63 09922462534</span>
+      </div>
+    </header>
+
+    <!-- Professional Summary -->
+    <section class="resume-section">
+      <h2 class="section-title">Professional Summary</h2>
+      <p class="summary-text">
+        Detail-oriented full-stack developer with experience leading technical projects and engineering responsive mobile
+        applications. Blends robust IT problem-solving skills with over three years of project management and brand
+        promotion experience in the advertising industry. A proven team leader adept at translating complex technical
+        solutions into persuasive client communications.
+      </p>
+    </section>
+
+    <!-- Intern Experience -->
+    <section class="resume-section">
+      <h2 class="section-title">Intern Experience</h2>
+      <div class="entry">
+        <div class="entry-header">
+          <span class="entry-title">City Treasurer's Office, Caloocan City Hall</span>
+          <span class="entry-date">January 2026 – April 2026</span>
+        </div>
+        <div class="entry-subtitle">IT Intern | Caloocan, Philippines</div>
+        <ul class="bullets">
+          <li>Completed a 450-hour professional internship assisting with municipal administrative and technical operations.</li>
+          <li>Encoded transfer tax receipts accurately to maintain up-to-date city financial records.</li>
+          <li>Managed and processed documentation for business closures, business retirements, and specific barangay concern.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="resume-section">
+      <h2 class="section-title">Projects</h2>
+      <div class="entry">
+        <div class="entry-header">
+          <span class="entry-title">Full-Stack Mobile Developer</span>
+          <span class="entry-date">September 2025 – May 2026</span>
+        </div>
+        <div class="entry-subtitle">Lead Developer | Flare Alert</div>
+        <ul class="bullets">
+          <li>Developed the core mobile application functionality utilizing Flutter for a cross-platform, responsive user interface and logic algorithm functionality of the system using Firebase Function.</li>
+          <li>Integrated Firebase to handle real-time data synchronization, user authentication, and multiple role coordination; maintaining the data using firestore and storing image/video in Cloudinary.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="resume-section">
+      <h2 class="section-title">Education</h2>
+      <div class="entry">
+        <div class="entry-header">
+          <span class="entry-title">Bachelor of Science in Information Technology</span>
+          <span class="entry-date">Graduated: 2026</span>
+        </div>
+        <div class="entry-subtitle">System Plus Computer College, Caloocan</div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="resume-section">
+      <h2 class="section-title">Skills</h2>
+      <p style="font-size: 0.9rem; font-weight: 700; color: #0f172a; margin-bottom: 4px;">Technology Stacks</p>
+      <table class="skills-grid">
+        <tr>
+          <td class="label-col">Programming Languages</td>
+          <td class="colon-col">:</td>
+          <td>Dart, PHP, HTML 5, CSS, JavaScript</td>
+        </tr>
+        <tr>
+          <td class="label-col">Framework and Libraries</td>
+          <td class="colon-col">:</td>
+          <td>Flutter and Laravel</td>
+        </tr>
+        <tr>
+          <td class="label-col">Database & Cloud</td>
+          <td class="colon-col">:</td>
+          <td>Supabase, Cloudinary, XAMPP, MySQL</td>
+        </tr>
+        <tr>
+          <td class="label-col">Design & Tools</td>
+          <td class="colon-col">:</td>
+          <td>Figma and Canva</td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- Certifications & Awards -->
+    <section class="resume-section" style="margin-bottom: 0;">
+      <h2 class="section-title">Certifications & Awards</h2>
+      <ul class="bullets">
+        <li><strong>Mastering Microsoft Excel:</strong> Advanced Techniques for Efficiency and Productivity (2024)</li>
+        <li><strong>Produce organic solid and liquid manure animal waste water filtration:</strong> Average score of 75 — Rank Two in Technological Innovation &amp; Rank Three in Prototype Animation</li>
+        <li><strong>Outstanding System Design:</strong> For demonstrating exemplary user interface design, highly efficient workflow mapping, and structural framework of the final capstone project for the Academic Year 2025-2026</li>
+        <li><strong>Outstanding System Developer:</strong> Outstanding technical expertise, seamless system integration, and robust technical execution in the successful development and implementation of the final capstone project for the Academic Year 2025-2026</li>
+      </ul>
+    </section>
+  </main>
+
+</body>
+
+</html>

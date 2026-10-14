@@ -460,6 +460,52 @@ function initContactForm() {
     });
 }
 
+// --- 7. ACCESSIBLE RESUME / CV MODAL ---
+function initResumeModal() {
+    const modal = document.getElementById('resumeModal');
+    if (!modal) return;
+
+    const closeBtn = modal.querySelector('.resume-modal-close');
+    const printBtn = modal.querySelector('.resume-print-btn');
+
+    function openModal() {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        if (closeBtn) closeBtn.focus();
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+    }
+
+    if (printBtn) {
+        printBtn.addEventListener('click', () => {
+            window.open('resume.html', '_blank');
+        });
+    }
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    // Expose helpers globally
+    window.openResumeModal = openModal;
+    window.closeResumeModal = closeModal;
+}
+
 // --- DOM INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
     initCustomCursor();
@@ -468,4 +514,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initPortfolioFilter();
     initCertificateModal();
     initContactForm();
+    initResumeModal();
 });

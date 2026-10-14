@@ -1780,3 +1780,268 @@ footer {
         padding: 24px 18px;
     }
 }
+
+/* --- 19. RESUME / CV CARD & INTERACTIVE VIEWER --- */
+.cv-card {
+    background: linear-gradient(135deg, rgba(25, 25, 35, 0.85) 0%, rgba(18, 18, 24, 0.9) 100%) !important;
+    border: 1px solid rgba(99, 102, 241, 0.4) !important;
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.cv-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--accent-indigo), var(--accent-purple));
+}
+
+.cv-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 10px;
+}
+
+.cv-header i {
+    font-size: 2.2rem;
+    color: var(--accent-indigo);
+    margin-bottom: 0 !important;
+    flex-shrink: 0;
+}
+
+.cv-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    margin-top: 4px;
+}
+
+.cv-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+/* Resume Lightbox Modal */
+.resume-modal {
+    display: none;
+    position: fixed;
+    z-index: 100000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(6, 6, 10, 0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.resume-modal.active {
+    display: flex;
+}
+
+.resume-modal-dialog {
+    background: #111116;
+    border: 1px solid var(--glass-border-hover);
+    border-radius: 18px;
+    width: 100%;
+    max-width: 880px;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+    position: relative;
+    overflow: hidden;
+}
+
+.resume-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 26px;
+    border-bottom: 1px solid var(--glass-border);
+    background: rgba(18, 18, 24, 0.95);
+    flex-shrink: 0;
+}
+
+.resume-modal-title {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+
+.resume-modal-title i {
+    color: var(--accent-indigo);
+}
+
+.resume-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.resume-modal-body {
+    padding: 34px 38px;
+    overflow-y: auto;
+    color: #e2e8f0;
+    line-height: 1.65;
+    background: #0e0e12;
+}
+
+/* Resume Document Styling */
+.resume-sheet {
+    background: #ffffff;
+    color: #0f172a;
+    border-radius: 10px;
+    padding: 40px 45px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.resume-sheet h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #0f172a;
+    text-align: center;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.resume-sheet .resume-subtitle {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #475569;
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.resume-sheet .resume-contact-bar {
+    font-size: 0.88rem;
+    color: #64748b;
+    text-align: center;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #0f172a;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.resume-sheet .resume-contact-bar a {
+    color: #4f46e5;
+    text-decoration: underline;
+}
+
+.resume-section {
+    margin-bottom: 20px;
+}
+
+.resume-section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #0f172a;
+    border-bottom: 1.5px solid #0f172a;
+    padding-bottom: 3px;
+    margin-bottom: 10px;
+}
+
+.resume-entry {
+    margin-bottom: 14px;
+}
+
+.resume-entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.resume-entry-title {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.resume-entry-date {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.resume-entry-sub {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 6px;
+}
+
+.resume-bullets {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 6px 0;
+}
+
+.resume-bullets li {
+    font-size: 0.88rem;
+    color: #334155;
+    line-height: 1.55;
+    margin-bottom: 5px;
+}
+
+.resume-skills-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    color: #334155;
+}
+
+.resume-skills-table td {
+    padding: 4px 0;
+    vertical-align: top;
+}
+
+.resume-skills-table td.skill-label {
+    width: 220px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+@media (max-width: 768px) {
+    .resume-modal-body {
+        padding: 16px 14px;
+    }
+    .resume-sheet {
+        padding: 24px 18px;
+    }
+    .resume-sheet h1 {
+        font-size: 1.5rem;
+    }
+    .resume-skills-table td.skill-label {
+        width: 140px;
+    }
+}

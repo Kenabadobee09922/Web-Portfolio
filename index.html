@@ -96,7 +96,9 @@
       </ul>
 
       <div class="nav-cta">
-        <a href="#contact" class="btn btn-sm btn-primary glow-effect">Hire Me / CV</a>
+        <button type="button" class="btn btn-sm btn-primary glow-effect" onclick="openResumeModal()">
+          <i class="fas fa-file-alt"></i> View CV / Resume
+        </button>
       </div>
 
       <button type="button" class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false"
@@ -511,6 +513,28 @@
 
         <div class="contact-content">
           <div class="contact-info">
+            <!-- Curriculum Vitae / Resume Card -->
+            <div class="info-card cv-card" id="resumeCard">
+              <div class="cv-header">
+                <i class="fas fa-file-invoice"></i>
+                <div>
+                  <h3 style="margin-bottom: 2px;">Curriculum Vitae (CV)</h3>
+                  <span class="cv-badge"><i class="fas fa-check-circle"></i> Verified 2026 Edition</span>
+                </div>
+              </div>
+              <p style="margin: 10px 0 16px; font-size: 0.92rem; color: var(--text-muted);">
+                Preview or export my official resume with verified BSIT credentials, Flutter engineering projects, and internship records.
+              </p>
+              <div class="cv-actions">
+                <button type="button" class="btn btn-sm btn-primary glow-effect" onclick="openResumeModal()">
+                  <i class="fas fa-eye"></i> View CV Resume
+                </button>
+                <a href="resume.html" target="_blank" class="btn btn-sm btn-secondary" aria-label="Open printable resume in new tab">
+                  <i class="fas fa-file-pdf"></i> Download / Print
+                </a>
+              </div>
+            </div>
+
             <div class="info-card">
               <i class="fas fa-envelope"></i>
               <h3>Direct Email</h3>
@@ -599,6 +623,139 @@
       </div>
     </div>
   </footer>
+
+  <!-- Modal for Interactive Resume / CV Viewer -->
+  <div id="resumeModal" class="resume-modal" role="dialog" aria-modal="true" aria-labelledby="resumeModalTitle">
+    <div class="resume-modal-dialog">
+      <div class="resume-modal-header">
+        <h2 class="resume-modal-title" id="resumeModalTitle">
+          <i class="fas fa-id-card"></i> John Kenneth E. Buhay — Curriculum Vitae
+        </h2>
+        <div class="resume-header-actions">
+          <a href="resume.html" target="_blank" class="btn btn-sm btn-primary">
+            <i class="fas fa-print"></i> Print / Save PDF
+          </a>
+          <button type="button" class="cert-modal-close" style="position:static;width:38px;height:38px;font-size:1.3rem;"
+            aria-label="Close resume modal" onclick="closeResumeModal()">&times;</button>
+        </div>
+      </div>
+      <div class="resume-modal-body">
+        <div class="resume-sheet">
+          <!-- Header -->
+          <div style="text-align: center; border-bottom: 2px solid #0f172a; padding-bottom: 14px; margin-bottom: 18px;">
+            <h1 style="font-family:'Outfit',sans-serif;font-size:1.85rem;font-weight:800;letter-spacing:0.5px;color:#0f172a;text-transform:uppercase;margin-bottom:4px;">
+              John Kenneth E. Buhay
+            </h1>
+            <p style="font-size:1.02rem;font-weight:600;color:#334155;margin-bottom:8px;">
+              Junior Mobile Application Developer | Fresh Graduate
+            </p>
+            <div style="font-size:0.88rem;color:#475569;display:flex;justify-content:center;flex-wrap:wrap;gap:12px;">
+              <span><i class="fas fa-map-marker-alt"></i> South Caloocan, Philippines</span>
+              <span>•</span>
+              <span><i class="fas fa-envelope"></i> <a href="mailto:floreskenneth319@gmail.com" style="color:#4f46e5;text-decoration:underline;">floreskenneth319@gmail.com</a></span>
+              <span>•</span>
+              <span><i class="fas fa-phone-alt"></i> +63 09922462534</span>
+            </div>
+          </div>
+
+          <!-- Professional Summary -->
+          <div class="resume-section">
+            <h3 class="resume-section-title">Professional Summary</h3>
+            <p style="font-size:0.9rem;line-height:1.6;color:#1e293b;text-align:justify;">
+              Detail-oriented full-stack developer with experience leading technical projects and engineering responsive mobile
+              applications. Blends robust IT problem-solving skills with over three years of project management and brand
+              promotion experience in the advertising industry. A proven team leader adept at translating complex technical
+              solutions into persuasive client communications.
+            </p>
+          </div>
+
+          <!-- Intern Experience -->
+          <div class="resume-section">
+            <h3 class="resume-section-title">Intern Experience</h3>
+            <div class="resume-entry">
+              <div class="resume-entry-header">
+                <span class="resume-entry-title">City Treasurer's Office, Caloocan City Hall</span>
+                <span class="resume-entry-date">January 2026 – April 2026</span>
+              </div>
+              <div class="resume-entry-sub">IT Intern | Caloocan, Philippines</div>
+              <ul class="resume-bullets">
+                <li>Completed a 450-hour professional internship assisting with municipal administrative and technical operations.</li>
+                <li>Encoded transfer tax receipts accurately to maintain up-to-date city financial records.</li>
+                <li>Managed and processed documentation for business closures, business retirements, and specific barangay concern.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Projects -->
+          <div class="resume-section">
+            <h3 class="resume-section-title">Projects</h3>
+            <div class="resume-entry">
+              <div class="resume-entry-header">
+                <span class="resume-entry-title">Full-Stack Mobile Developer</span>
+                <span class="resume-entry-date">September 2025 – May 2026</span>
+              </div>
+              <div class="resume-entry-sub">Lead Developer | Flare Alert</div>
+              <ul class="resume-bullets">
+                <li>Developed the core mobile application functionality utilizing Flutter for a cross-platform, responsive user interface and logic algorithm functionality of the system using Firebase Function.</li>
+                <li>Integrated Firebase to handle real-time data synchronization, user authentication, and multiple role coordination; maintaining the data using firestore and storing image/video in Cloudinary.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Education -->
+          <div class="resume-section">
+            <h3 class="resume-section-title">Education</h3>
+            <div class="resume-entry">
+              <div class="resume-entry-header">
+                <span class="resume-entry-title">Bachelor of Science in Information Technology</span>
+                <span class="resume-entry-date">Graduated: 2026</span>
+              </div>
+              <div class="resume-entry-sub">System Plus Computer College, Caloocan</div>
+            </div>
+          </div>
+
+          <!-- Skills -->
+          <div class="resume-section">
+            <h3 class="resume-section-title">Skills</h3>
+            <p style="font-size:0.9rem;font-weight:700;color:#0f172a;margin-bottom:6px;">Technology Stacks</p>
+            <table class="resume-skills-table">
+              <tr>
+                <td class="skill-label">Programming Languages</td>
+                <td style="width:20px;color:#64748b;">:</td>
+                <td>Dart, PHP, HTML 5, CSS, JavaScript</td>
+              </tr>
+              <tr>
+                <td class="skill-label">Framework and Libraries</td>
+                <td style="width:20px;color:#64748b;">:</td>
+                <td>Flutter and Laravel</td>
+              </tr>
+              <tr>
+                <td class="skill-label">Database & Cloud</td>
+                <td style="width:20px;color:#64748b;">:</td>
+                <td>Supabase, Cloudinary, XAMPP, MySQL</td>
+              </tr>
+              <tr>
+                <td class="skill-label">Design & Tools</td>
+                <td style="width:20px;color:#64748b;">:</td>
+                <td>Figma and Canva</td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Certifications & Awards -->
+          <div class="resume-section" style="margin-bottom:0;">
+            <h3 class="resume-section-title">Certifications & Awards</h3>
+            <ul class="resume-bullets">
+              <li><strong>Mastering Microsoft Excel:</strong> Advanced Techniques for Efficiency and Productivity (2024)</li>
+              <li><strong>Produce organic solid and liquid manure animal waste water filtration:</strong> Average score of 75 — Rank Two in Technological Innovation &amp; Rank Three in Prototype Animation</li>
+              <li><strong>Outstanding System Design:</strong> For demonstrating exemplary user interface design, highly efficient workflow mapping, and structural framework of the final capstone project for the Academic Year 2025-2026</li>
+              <li><strong>Outstanding System Developer:</strong> Outstanding technical expertise, seamless system integration, and robust technical execution in the successful development and implementation of the final capstone project for the Academic Year 2025-2026</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Supabase CDN and Client Script -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
