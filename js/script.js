@@ -506,12 +506,340 @@ function initResumeModal() {
     window.closeResumeModal = closeModal;
 }
 
+// --- 8. THEME TOGGLE (DARK / LIGHT MODE) ---
+function initThemeToggle() {
+    const savedTheme = localStorage.getItem('jkb_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+
+    const toggleBtns = document.querySelectorAll('.theme-toggle-btn');
+    toggleBtns.forEach(btn => {
+        btn.setAttribute('aria-label', `Switch to ${savedTheme === 'dark' ? 'Light' : 'Dark'} Mode`);
+        btn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            document.documentElement.setAttribute('data-theme', nextTheme);
+            localStorage.setItem('jkb_theme', nextTheme);
+            btn.setAttribute('aria-label', `Switch to ${nextTheme === 'dark' ? 'Light' : 'Dark'} Mode`);
+        });
+    });
+}
+
+// --- 9. INTERACTIVE PROJECT CAROUSEL & VIEW SWITCHER ---
+function initProjectCarousel() {
+    const track = document.getElementById('projectSliderTrack');
+    const prevBtn = document.getElementById('projectPrevBtn');
+    const nextBtn = document.getElementById('projectNextBtn');
+    const dotsContainer = document.getElementById('projectDots');
+    const viewBtns = document.querySelectorAll('.view-mode-btn');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.project-card');
+
+    if (!track) return;
+
+    // View Mode Toggle (Slide View vs Grid View)
+    viewBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            viewBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const mode = btn.getAttribute('data-view');
+
+            if (mode === 'grid') {
+                track.classList.add('grid-mode');
+                if (prevBtn) prevBtn.style.display = 'none';
+                if (nextBtn) nextBtn.style.display = 'none';
+                if (dotsContainer) dotsContainer.style.display = 'none';
+            } else {
+                track.classList.remove('grid-mode');
+                if (prevBtn) prevBtn.style.display = 'flex';
+                if (nextBtn) nextBtn.style.display = 'flex';
+                if (dotsContainer) dotsContainer.style.display = 'flex';
+                updateDots();
+            }
+        });
+    });
+
+    function getCardWidth() {
+        const firstVisible = track.querySelector('.project-card:not([style*="display: none"])');
+        return firstVisible ? firstVisible.offsetWidth + 24 : 340;
+    }
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            track.scrollBy({ left: -getCardWidth(), behavior: 'smooth' });
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            track.scrollBy({ left: getCardWidth(), behavior: 'smooth' });
+        });
+    }
+
+    function updateDots() {
+        if (!dotsContainer) return;
+        dotsContainer.innerHTML = '';
+        const visibleCards = Array.from(cards).filter(c => c.style.display !== 'none');
+        visibleCards.forEach((card, idx) => {
+            const dot = document.createElement('button');
+            dot.className = `carousel-dot ${idx === 0 ? 'active' : ''}`;
+            dot.setAttribute('aria-label', `Go to project ${idx + 1}`);
+            dot.addEventListener('click', () => {
+                card.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+            });
+            dotsContainer.appendChild(dot);
+        });
+    }
+
+    track.addEventListener('scroll', () => {
+        if (track.classList.contains('grid-mode') || !dotsContainer) return;
+        const visibleCards = Array.from(cards).filter(c => c.style.display !== 'none');
+        const scrollLeft = track.scrollLeft;
+        const cardWidth = getCardWidth();
+        const activeIdx = Math.round(scrollLeft / cardWidth);
+
+        const dots = dotsContainer.querySelectorAll('.carousel-dot');
+        dots.forEach((dot, idx) => {
+            dot.classList.toggle('active', idx === activeIdx);
+        });
+    }, { passive: true });
+
+    // Category Filtering
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filterValue = btn.getAttribute('data-filter') || 'all';
+
+            filterBtns.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+            });
+            btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
+
+            cards.forEach(card => {
+                const rawCategory = card.getAttribute('data-category') || '';
+                const categories = rawCategory.toLowerCase().trim().split(/\s+/);
+                const matches = filterValue === 'all' || categories.includes(filterValue.toLowerCase());
+
+                if (matches) {
+                    card.style.display = 'flex';
+                    requestAnimationFrame(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    });
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(16px)';
+                    setTimeout(() => {
+                        if (card.style.opacity === '0') {
+                            card.style.display = 'none';
+                        }
+                    }, 300);
+                }
+            });
+
+            track.scrollTo({ left: 0, behavior: 'smooth' });
+            setTimeout(updateDots, 350);
+        });
+    });
+
+    // 3D Perspective Card Tilt on Desktop
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                const tiltX = (y / (rect.height / 2)) * -5;
+                const tiltY = (x / (rect.width / 2)) * 5;
+                card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-6px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+    }
+
+    updateDots();
+}
+
+// --- 10. TOOLS & TECH STACK SLIDESHOW ---
+function initToolsSlideshow() {
+    const track = document.getElementById('toolsTrack');
+    const trackWrapper = document.getElementById('toolsTrackWrapper');
+    const prevBtn = document.getElementById('toolsPrevBtn');
+    const nextBtn = document.getElementById('toolsNextBtn');
+    const filterBtns = document.querySelectorAll('.tool-filter-btn');
+    const cards = document.querySelectorAll('.tool-card');
+
+    if (!track || !trackWrapper) return;
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filterValue = btn.getAttribute('data-tool-filter') || 'all';
+
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            cards.forEach(card => {
+                const cat = card.getAttribute('data-tool-category') || '';
+                const matches = filterValue === 'all' || cat.toLowerCase().includes(filterValue.toLowerCase());
+                if (matches) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            trackWrapper.scrollTo({ left: 0, behavior: 'smooth' });
+        });
+    });
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            trackWrapper.scrollBy({ left: -280, behavior: 'smooth' });
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            trackWrapper.scrollBy({ left: 280, behavior: 'smooth' });
+        });
+    }
+
+    let isPaused = false;
+    let autoScrollInterval = setInterval(() => {
+        if (isPaused) return;
+        if (trackWrapper.scrollLeft + trackWrapper.clientWidth >= trackWrapper.scrollWidth - 10) {
+            trackWrapper.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+            trackWrapper.scrollBy({ left: 1.2, behavior: 'auto' });
+        }
+    }, 35);
+
+    trackWrapper.addEventListener('mouseenter', () => { isPaused = true; });
+    trackWrapper.addEventListener('mouseleave', () => { isPaused = false; });
+    trackWrapper.addEventListener('touchstart', () => { isPaused = true; }, { passive: true });
+    trackWrapper.addEventListener('touchend', () => {
+        setTimeout(() => { isPaused = false; }, 1500);
+    }, { passive: true });
+}
+
+// --- 11. QUICK PREVIEW MODAL ---
+function initQuickPreviewModal() {
+    const modal = document.getElementById('quickPreviewModal');
+    if (!modal) return;
+
+    const closeBtn = modal.querySelector('.preview-modal-close');
+
+    function openPreview(data) {
+        const titleEl = modal.querySelector('#previewModalTitle');
+        const roleEl = modal.querySelector('#previewModalRole');
+        const badgeEl = modal.querySelector('#previewModalBadge');
+        const descEl = modal.querySelector('#previewModalDesc');
+        const stackEl = modal.querySelector('#previewModalStack');
+        const linkEl = modal.querySelector('#previewModalLink');
+        const imgEl = modal.querySelector('#previewModalImg');
+
+        if (titleEl) titleEl.textContent = data.title;
+        if (roleEl) roleEl.textContent = data.role;
+        if (badgeEl) badgeEl.textContent = data.badge;
+        if (descEl) descEl.textContent = data.desc;
+        if (linkEl) {
+            linkEl.href = data.link;
+            linkEl.textContent = data.linkText || 'Read Full Case Study →';
+        }
+        if (imgEl && data.img) {
+            imgEl.src = data.img;
+            imgEl.alt = data.title;
+        }
+
+        if (stackEl && data.stack) {
+            stackEl.innerHTML = data.stack.map(s => `<span>${s}</span>`).join('');
+        }
+
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closePreview() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', closePreview);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closePreview();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) closePreview();
+    });
+
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-preview-project]');
+        if (btn) {
+            const projectKey = btn.getAttribute('data-preview-project');
+            const previewData = {
+                'flare-alert': {
+                    title: 'Flare Alert — Emergency Response System',
+                    role: 'Lead Developer & UI/UX Designer',
+                    badge: '2x Capstone Award Winner',
+                    img: 'assets/photo/flare-alert-logo.png',
+                    desc: 'Cross-platform mobile emergency reporting application engineered in Flutter, Firebase, and Node.js. Captures real-time GPS coordinates, broadcasts incident alerts to nearby responders, and tracks lifecycle status.',
+                    stack: ['Flutter', 'Dart', 'Firebase', 'Firestore', 'Node.js', 'Google APIs'],
+                    link: 'project-flare-alert.html',
+                    linkText: 'Explore Engineering Case Study →'
+                },
+                'ecofertile': {
+                    title: 'Ecofertile — Sustainable Waste Filtration System',
+                    role: 'UI/UX Designer & Prototype Developer',
+                    badge: 'Rank 2 & 3 Awards',
+                    img: 'assets/photo/ecofertile.jpg',
+                    desc: 'Award-winning AgriTech interface converting agricultural solid and liquid animal waste into organic fertilizer. Features intuitive stage telemetry, high-contrast monitors, and 3D simulation animation.',
+                    stack: ['Figma', 'UI/UX Design', 'HTML5/CSS3', 'JavaScript', '3D Simulation'],
+                    link: 'project-ecofertile.html',
+                    linkText: 'Explore UI/UX Case Study →'
+                },
+                'treasury': {
+                    title: 'Municipal Treasury Records & Operations',
+                    role: 'IT Intern & Operations Specialist',
+                    badge: '450-Hour Public Sector Practicum',
+                    img: 'assets/photo/jkb-logo.jpg',
+                    desc: 'High-volume administrative data verification, digital record indexing, taxpayer assistance, and document tracking executed at the Treasurer\'s Department, Caloocan City Hall.',
+                    stack: ['Records Management', 'Data Verification', 'Spreadsheet Ops', 'Public Service QA'],
+                    link: 'index.html#experience',
+                    linkText: 'View Operations Timeline →'
+                },
+                'pipeline': {
+                    title: 'Cloud Lead Capture & Operations Pipeline',
+                    role: 'Full-Stack & Cloud Developer',
+                    badge: 'Live Interactive Pipeline',
+                    img: 'assets/photo/jkb-logo.jpg',
+                    desc: 'Automated client inquiry triage, real-time Supabase cloud database logging, honeypot spam suppression, and CRM routing designed for zero-drop customer response.',
+                    stack: ['Supabase', 'CRM Automation', 'Inbox/Calendar Ops', 'Client Success'],
+                    link: 'index.html#contact',
+                    linkText: 'Test Live Inquiry Pipeline →'
+                }
+            };
+
+            if (previewData[projectKey]) {
+                openPreview(previewData[projectKey]);
+            }
+        }
+    });
+
+    window.closeQuickPreview = closePreview;
+}
+
 // --- DOM INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
+    initThemeToggle();
     initCustomCursor();
     initMobileNav();
     initScrollEffects();
-    initPortfolioFilter();
+    initProjectCarousel();
+    initToolsSlideshow();
+    initQuickPreviewModal();
     initCertificateModal();
     initContactForm();
     initResumeModal();
