@@ -1,564 +1,608 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>John Kenneth Buhay | Portfolio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ink: #12151B;
-    --ink-soft: #1B2029;
-    --paper: #F1F2F0;
-    --card: #FFFFFF;
-    --accent: #3ED598;
-    --accent-dim: #1F6B4B;
-    --text-dark: #1B1E24;
-    --text-muted: #6B7280;
-    --line: #D9DCE1;
-    --line-dark: #2A2F3A;
-    --mono: 'JetBrains Mono', 'Courier New', monospace;
-    --sans: 'Inter', -apple-system, sans-serif;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>John Kenneth Buhay | Full-Stack System Developer & Tech Virtual Assistant</title>
+  <meta name="description"
+    content="Official portfolio of John Kenneth Buhay (JKB) - BSIT Graduate, Award-Winning Lead System Developer (Flutter, Firebase, Supabase), and Tech Virtual Assistant specializing in business operations in Caloocan, Philippines.">
+  <meta name="keywords"
+    content="John Kenneth Buhay, JKB, System Developer, Tech Virtual Assistant, Flutter Developer, Firebase, Supabase, UI/UX Design, Caloocan City Hall, Systems Plus Computer College, Web Portfolio">
+  <meta name="author" content="John Kenneth Buhay">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="assets/photo/jkb-logo.jpg">
+  <link rel="apple-touch-icon" href="assets/photo/jkb-logo.jpg">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="John Kenneth Buhay | Full-Stack System Developer & Tech Virtual Assistant">
+  <meta property="og:description"
+    content="Engineering Smart Systems & Streamlining Business Operations. Award-winning developer and tech virtual assistant.">
+  <meta property="og:image" content="assets/photo/jkb-logo.jpg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="John Kenneth Buhay | Full-Stack System Developer & Tech Virtual Assistant">
+  <meta name="twitter:description"
+    content="Engineering Smart Systems & Streamlining Business Operations. Award-winning developer and tech virtual assistant.">
+  <meta name="twitter:image" content="assets/photo/jkb-logo.jpg">
+
+  <!-- Structured Data JSON-LD for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "John Kenneth Buhay",
+    "alternateName": "JKB",
+    "jobTitle": "Full-Stack System Developer & Tech Virtual Assistant",
+    "alumniOf": {
+      "@type": "EducationalOrganization",
+      "name": "Systems Plus Computer College"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Caloocan",
+      "addressRegion": "Metro Manila",
+      "addressCountry": "Philippines"
+    },
+    "email": "floreskenneth319@gmail.com",
+    "knowsAbout": [
+      "Mobile Application Development (Flutter, Dart)",
+      "Cloud Architecture (Firebase, Firestore, Supabase, Node.js)",
+      "Web Development (HTML5, CSS3, JavaScript)",
+      "UI/UX Design & Prototyping (Figma)",
+      "Technical Virtual Assistance & Workflow Automation",
+      "Administrative Records & Operations Management"
+    ]
   }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
-  }
-
-  body {
-    font-family: var(--sans);
-    color: var(--text-dark);
-    background: var(--paper);
-    line-height: 1.6;
-  }
-
-  a { color: inherit; }
-
-  .container {
-    width: 90%;
-    max-width: 960px;
-    margin: 0 auto;
-  }
-
-  .eyebrow {
-    font-family: var(--mono);
-    font-size: 0.8rem;
-    color: var(--accent-dim);
-    letter-spacing: 0.02em;
-    margin-bottom: 14px;
-    display: block;
-  }
-
-  h2 {
-    font-family: var(--mono);
-    font-size: clamp(1.6rem, 3vw, 2.1rem);
-    font-weight: 700;
-    color: var(--text-dark);
-    margin-bottom: 32px;
-    letter-spacing: -0.01em;
-  }
-
-  /* --- STATUS BAR / NAV --- */
-  header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 100;
-    background: rgba(18, 21, 27, 0.88);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--line-dark);
-  }
-
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 5%;
-    max-width: 960px;
-    margin: 0 auto;
-  }
-
-  .status {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--mono);
-    font-size: 0.78rem;
-    color: #AEB4C0;
-  }
-
-  .status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 0 0 rgba(62, 213, 152, 0.5);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(62, 213, 152, 0.5); }
-    70% { box-shadow: 0 0 0 6px rgba(62, 213, 152, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(62, 213, 152, 0); }
-  }
-
-  .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 28px;
-  }
-
-  .nav-links a {
-    text-decoration: none;
-    font-family: var(--mono);
-    font-size: 0.82rem;
-    color: #C5CAD3;
-    transition: color 0.2s;
-    position: relative;
-  }
-
-  .nav-links a::before { content: "/"; color: var(--accent); margin-right: 4px; opacity: 0.7; }
-
-  .nav-links a:hover, .nav-links a:focus-visible { color: var(--accent); }
-
-  a:focus-visible, button:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 3px;
-  }
-
-  /* --- HERO / TERMINAL --- */
-  #hero {
-    background: var(--ink);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding-top: 70px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  #hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(circle at 85% 20%, rgba(62,213,152,0.08), transparent 40%),
-      radial-gradient(circle at 10% 80%, rgba(62,213,152,0.05), transparent 35%);
-    pointer-events: none;
-  }
-
-  .terminal {
-    background: var(--ink-soft);
-    border: 1px solid var(--line-dark);
-    border-radius: 10px;
-    max-width: 620px;
-    width: 100%;
-    overflow: hidden;
-    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.5);
-    position: relative;
-    z-index: 1;
-  }
-
-  .terminal-bar {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 12px 16px;
-    background: #0E1116;
-    border-bottom: 1px solid var(--line-dark);
-  }
-
-  .terminal-bar span {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #FF5F56;
-  }
-  .terminal-bar span:nth-child(1) { background: #FF5F56; } /* red */
-.terminal-bar span:nth-child(2) { background: #FFBD2E; } /* yellow */
-.terminal-bar span:nth-child(3) { background: #27C93F; } /* green */
-
-  .terminal-bar .label {
-    width: auto;
-    height: auto;
-    border-radius: 0;
-    background: none;
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    color: #6B7280;
-    margin-left: 8px;
-  }
-
-  .terminal-body {
-    padding: 28px 24px 32px;
-    font-family: var(--mono);
-    font-size: 0.92rem;
-    color: #C5CAD3;
-    min-height: 220px;
-  }
-
-  .terminal-body .line { margin-bottom: 10px; opacity: 0; animation: reveal 0.4s forwards; }
-  .terminal-body .prompt { color: var(--accent); }
-  .terminal-body .out { color: #9BA3B0; }
-  .terminal-body .name { color: #F1F2F0; font-size: 1.6rem; font-weight: 700; display: block; margin: 6px 0 10px; }
-  .terminal-body .role { color: var(--accent); }
-
-  @keyframes reveal { to { opacity: 1; } }
-
-  .cursor {
-    display: inline-block;
-    width: 8px;
-    height: 1.1em;
-    background: var(--accent);
-    vertical-align: text-bottom;
-    animation: blink 1s step-end infinite;
-  }
-
-  @keyframes blink { 50% { opacity: 0; } }
-
-  .hero-cta {
-    margin-top: 22px;
-    display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-  }
-
-  /* --- BUTTONS --- */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 11px 20px;
-    background: var(--accent);
-    color: #0E1116;
-    text-decoration: none;
-    border-radius: 6px;
-    font-family: var(--mono);
-    font-size: 0.85rem;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
-  }
-
-  .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -8px rgba(62,213,152,0.6); }
-
-  .btn-ghost {
-    background: transparent;
-    color: #C5CAD3;
-    border: 1px solid var(--line-dark);
-  }
-
-  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); box-shadow: none; }
-
-  /* --- SECTIONS --- */
-  section:not(#hero) { padding: 90px 0; }
-
-  #about { background: var(--paper); }
-
-  #about p {
-    max-width: 640px;
-    font-size: 1.05rem;
-    color: var(--text-muted);
-  }
-
-  #about p strong { color: var(--text-dark); font-weight: 600; }
-
-  /* --- PROJECTS --- */
-  #projects { background: var(--card); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-
-  .project-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-  }
-
-  .project-card {
-    background: var(--paper);
-    border-radius: 12px;
-    padding: 0;
-    border: 1px solid var(--line);
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-
-  .project-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -20px rgba(18,21,27,0.25); }
-
-  .project-glyph {
-    height: 100px;
-    background: var(--ink);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-
-  .project-glyph .notch {
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 46px;
-    height: 5px;
-    background: #2A2F3A;
-    border-radius: 4px;
-  }
-
-  .project-glyph .icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--mono);
-    font-weight: 700;
-    color: #0E1116;
-  }
-
-  .project-body { padding: 22px 22px 24px; }
-
-  .project-body h3 {
-    font-family: var(--mono);
-    font-size: 1.1rem;
-    margin-bottom: 8px;
-  }
-
-  .project-body p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 16px; }
-
-  .tech-stack { display: flex; gap: 8px; flex-wrap: wrap; }
-
-  .tech-stack span {
-    font-family: var(--mono);
-    background: var(--card);
-    border: 1px solid var(--line);
-    padding: 4px 10px;
-    font-size: 0.75rem;
-    border-radius: 4px;
-    color: var(--accent-dim);
-  }
-
-  /* --- EXPERIENCE / GIT LOG --- */
-  #experience { background: var(--paper); }
-
-  .git-log { border-left: 2px solid var(--line); margin-left: 6px; }
-
-  .commit {
-    position: relative;
-    padding: 4px 0 32px 28px;
-  }
-
-  .commit::before {
-    content: "";
-    position: absolute;
-    left: -7px;
-    top: 6px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--card);
-    border: 2px solid var(--accent);
-  }
-
-  .commit:last-child { padding-bottom: 4px; }
-
-  .commit-hash {
-    font-family: var(--mono);
-    font-size: 0.8rem;
-    color: var(--accent-dim);
-  }
-
-  .commit-meta {
-    font-family: var(--mono);
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    margin: 4px 0 12px;
-  }
-
-  .commit-meta b { color: var(--text-dark); }
-
-  .commit-msg {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 16px 18px;
-  }
-
-  .commit-msg .subject {
-    font-family: var(--mono);
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: var(--text-dark);
-    margin-bottom: 6px;
-  }
-
-  .commit-msg .subject .type { color: var(--accent-dim); }
-
-  .commit-msg p { color: var(--text-muted); font-size: 0.92rem; }
-
-  /* --- CONTACT --- */
-  #contact {
-    background: var(--ink);
-    color: #F1F2F0;
-    text-align: left;
-  }
-
-  #contact .eyebrow { color: var(--accent); }
-
-  #contact h2 { color: #F1F2F0; }
-
-  #contact p { color: #9BA3B0; max-width: 520px; margin-bottom: 28px; font-size: 1.02rem; }
-
-  /* --- FOOTER --- */
-  footer {
-    text-align: center;
-    padding: 24px;
-    background: #0E1116;
-    color: #6B7280;
-    font-family: var(--mono);
-    font-size: 0.78rem;
-  }
-
-  footer .status-dot { display: inline-block; }
-
-  @media (max-width: 640px) {
-    .nav-links { gap: 16px; }
-    .nav-links a span.full { display: none; }
-    section:not(#hero) { padding: 64px 0; }
-    .terminal-body { font-size: 0.82rem; padding: 22px 18px 26px; }
-  }
-</style>
+  </script>
+
+  <!-- Google Fonts Preconnect & Stylesheets -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Consolidated Master CSS -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
-<header>
-  <nav>
-    <div class="status"><span class="status-dot" aria-hidden="true"></span> Work Availability: Open</div>
-    <ul class="nav-links">
-      <li><a href="#about">about</a></li>
-      <li><a href="#projects">projects</a></li>
-      <li><a href="#experience">experience</a></li>
-      <li><a href="#contact">contact</a></li>
-    </ul>
-  </nav>
-</header>
+  <!-- Touch-Safe Custom Cursor -->
+  <div class="cursor-dot"></div>
+  <div class="cursor-outline"></div>
 
-<section id="hero">
-  <div class="container">
-    <div class="terminal">
-      <div class="terminal-bar">
-        <span></span><span></span><span></span>
-        <span class="label">jkb — zsh — 80×24</span>
+  <!-- Header -->
+  <header>
+    <nav class="container" aria-label="Main Navigation">
+      <a href="index.html" class="logo" aria-label="John Kenneth Buhay Homepage">
+        <img src="assets/photo/jkb-logo.jpg" alt="JKB Logo" class="logo-img" width="40" height="40">
+        JK<span>B</span>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#services" class="nav-link">Services</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#experience" class="nav-link">Experience</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="#contact" class="btn btn-sm btn-primary glow-effect">Hire Me / CV</a>
       </div>
-      <div class="terminal-body" id="terminalBody">
-        <div class="line" style="animation-delay:0.5s"><span class="name">John Kenneth Buhay</span></div>
-        <div class="line" style="animation-delay:0.9s"><span class="out"></span> <span class="role">Information Technology Professional & Developer</span></div>
-        <div class="line" style="animation-delay:1.3s"><span class="prompt"></span></div>
-        <div class="line" style="animation-delay:1.7s"><span class="out">AI Automation · Mobile Software Application Developer · Web Development · UI/UX · Mobile Software Application</span></div>
-        <div class="line hero-cta" style="animation-delay:2.1s">
-          <a href="#projects" class="btn">view projects →</a>
-          <a href="#contact" class="btn btn-ghost">get in touch</a>
+
+      <button type="button" class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false"
+        aria-controls="navLinks">
+        <i class="fas fa-bars"></i>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="hero hidden">
+      <div class="container hero-content">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span> Available for Full-Stack Engineering & Tech VA Roles
+        </div>
+
+        <h1 class="hero-title">
+          Engineering Smart Systems & <span class="gradient-text">Streamlining Business Operations</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          BSIT Graduate, Award-Winning System Developer, and Tech Virtual Assistant helping teams build scalable apps
+          and run frictionless daily operations.
+        </p>
+
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary glow-effect">
+            Explore My Work <i class="fas fa-arrow-right"></i>
+          </a>
+          <a href="#contact" class="btn btn-secondary">
+            Book a Discovery Call / Contact
+          </a>
         </div>
       </div>
-    </div>
-  </div>
-</section>
 
-<section id="about">
-  <div class="container">
-    <span class="eyebrow">// about</span>
-    <h2>What I build</h2>
-    <p>I specialize in building <strong>cross-platform mobile applications</strong> and <strong>robust backend systems</strong> using Flutter, Dart, Firebase, and Node.js. I focus on creating seamless digital experiences — from planning UI/UX in Figma to deploying functional, production-ready applications.</p>
-  </div>
-</section>
+      <!-- Ambient Glow Blobs -->
+      <div class="glow-blob blob-1"></div>
+      <div class="glow-blob blob-2"></div>
+    </section>
 
-<section id="projects">
-  <div class="container">
-    <span class="eyebrow">// projects</span>
-    <h2>Featured work</h2>
-    <div class="project-grid">
-      <div class="project-card">
-        <div class="project-glyph"><span class="notch"></span><span class="icon">FA</span></div>
-        <div class="project-body">
-          <h3>Flare Alert</h3>
-          <p>A mobile emergency reporting application utilizing real-time data integration.</p>
-          <div class="tech-stack">
-            <span>Flutter</span><span>Firebase</span><span>Node.js</span>
+    <!-- About Section -->
+    <section id="about" class="about hidden">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">About Me</h2>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="about-content">
+          <div>
+            <p class="about-text">
+              I am a <span class="highlight">BS Information Technology graduate</span> from Systems Plus Computer College
+              combining full-stack software engineering proficiency with high-impact administrative support. I bridge the
+              gap between complex technology and real-world business execution.
+            </p>
+            <p class="about-text">
+              Whether architecting real-time mobile applications with <span class="highlight">Flutter & Firebase</span> or
+              orchestrating automated CRM pipelines and municipal records as a <span class="highlight">Tech Virtual
+                Assistant</span>, my focus is delivering scalable systems and zero-friction operations.
+            </p>
+
+            <div class="about-highlights">
+              <div class="highlight-box">
+                <i class="fas fa-graduation-cap"></i>
+                <h4>BSIT Graduate</h4>
+                <p>Systems Plus Computer College, Capstone Lead Developer</p>
+              </div>
+              <div class="highlight-box">
+                <i class="fas fa-landmark"></i>
+                <h4>Public Sector Practicum</h4>
+                <p>450 hours at Treasurer's Dept, Caloocan City Hall</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="skills-wrapper">
+            <h3>Technical & Operational Competencies</h3>
+            <div class="skills-container">
+              <div class="skill-tag"><i class="fas fa-code"></i> Flutter & Dart</div>
+              <div class="skill-tag"><i class="fas fa-fire"></i> Firebase & Firestore</div>
+              <div class="skill-tag"><i class="fas fa-database"></i> Supabase & SQL</div>
+              <div class="skill-tag"><i class="fab fa-node-js"></i> Node.js & APIs</div>
+              <div class="skill-tag"><i class="fab fa-figma"></i> Figma & UI/UX</div>
+              <div class="skill-tag"><i class="fab fa-html5"></i> HTML5, CSS3, ES6+ JS</div>
+              <div class="skill-tag"><i class="fas fa-tasks"></i> CRM & Project Management</div>
+              <div class="skill-tag"><i class="fas fa-envelope-open-text"></i> Email & Calendar Ops</div>
+              <div class="skill-tag"><i class="fas fa-file-alt"></i> Records & Data Verification</div>
+              <div class="skill-tag"><i class="fas fa-headset"></i> Customer Success & QA</div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="project-card">
-        <div class="project-glyph"><span class="notch"></span><span class="icon">＋</span></div>
-        <div class="project-body">
-          <h3>Next Project</h3>
-          <p>Description of another amazing project you've built or are currently working on.</p>
-          <div class="tech-stack">
-            <span>Figma</span><span>HTML/CSS</span>
+    </section>
+
+    <!-- Services Grid (Dual-Track, 4 Cards) -->
+    <section id="services" class="services hidden">
+      <div class="container">
+        <div class="section-header text-center">
+          <h2 class="section-title">Specialized Services</h2>
+          <div class="section-line"></div>
+          <p class="contact-subtitle" style="margin-bottom: 20px;">
+            Dual-track solutions spanning modern software engineering and business operations.
+          </p>
+        </div>
+
+        <div class="services-overview">
+          <!-- Service Card 1 -->
+          <div class="service-card">
+            <div class="service-icon-box">
+              <i class="fas fa-mobile-alt"></i>
+            </div>
+            <h3>Mobile & Cross-Platform Apps</h3>
+            <p>
+              End-to-end mobile engineering with Flutter and Dart. Native performance across iOS and Android, real-time
+              geolocation, push notifications, and offline-first data sync.
+            </p>
+            <div class="service-tags">
+              <span>Flutter</span>
+              <span>Dart</span>
+              <span>Geolocation</span>
+              <span>Cloud Sync</span>
+            </div>
+          </div>
+
+          <!-- Service Card 2 -->
+          <div class="service-card">
+            <div class="service-icon-box">
+              <i class="fas fa-cloud"></i>
+            </div>
+            <h3>Full-Stack Web & Cloud Systems</h3>
+            <p>
+              High-performance, responsive web interfaces connected to scalable serverless backends using Firebase and
+              Supabase with secure authentication and cloud automation.
+            </p>
+            <div class="service-tags">
+              <span>HTML5/CSS3</span>
+              <span>JavaScript</span>
+              <span>Supabase</span>
+              <span>Firebase</span>
+            </div>
+          </div>
+
+          <!-- Service Card 3 -->
+          <div class="service-card">
+            <div class="service-icon-box">
+              <i class="fas fa-pen-nib"></i>
+            </div>
+            <h3>UI/UX Design & Prototyping</h3>
+            <p>
+              Comprehensive UI/UX architectures from user journey mapping and wireframing in Figma to interactive
+              prototypes and design system tokenization.
+            </p>
+            <div class="service-tags">
+              <span>Figma</span>
+              <span>Wireframing</span>
+              <span>Prototyping</span>
+              <span>Design Systems</span>
+            </div>
+          </div>
+
+          <!-- Service Card 4 -->
+          <div class="service-card">
+            <div class="service-icon-box">
+              <i class="fas fa-user-check"></i>
+            </div>
+            <h3>Tech VA & Business Operations</h3>
+            <p>
+              High-leverage virtual assistance: CRM administration, automated reporting workflows, technical support,
+              calendar orchestration, and accurate digital records indexing.
+            </p>
+            <div class="service-tags">
+              <span>CRM Ops</span>
+              <span>Automation</span>
+              <span>Calendar/Inbox</span>
+              <span>Data QA</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<section id="experience">
-  <div class="container">
-    <span class="eyebrow">Physical Work</span>
-    <h2>EXPERIENCE</h2>
-    <div class="git-log">
-      <div class="commit">
-        <div class="commit-hash">commit 7f3a1c9</div>
-        <div class="commit-meta"><b>Author:</b> John Kenneth Buhay &nbsp; <b>Date:</b> Jan 2026 – Apr 2026</div>
-        <div class="commit-msg">
-          <div class="subject"><span class="type">intern:</span> Treasurer's Department, Caloocan City Hall</div>
-          <p>Assisted with document processing, tax transfers, and administrative operations during a 450-hour practicum.</p>
+    <!-- Projects Section -->
+    <section id="projects" class="projects hidden">
+      <div class="container">
+        <div class="section-header text-center">
+          <h2 class="section-title">Portfolio & Case Studies</h2>
+          <div class="section-line"></div>
+          <p class="contact-subtitle" style="margin-bottom: 25px;">
+            Engineered systems, award-winning prototypes, and administrative operations.
+          </p>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="filter-container" role="tablist" aria-label="Portfolio Categories">
+          <button type="button" class="filter-btn active" data-filter="all" role="tab" aria-selected="true"
+            aria-pressed="true">
+            All <span class="badge-count">4</span>
+          </button>
+          <button type="button" class="filter-btn" data-filter="tech" role="tab" aria-selected="false"
+            aria-pressed="false">
+            Tech <span class="badge-count">3</span>
+          </button>
+          <button type="button" class="filter-btn" data-filter="admin" role="tab" aria-selected="false"
+            aria-pressed="false">
+            Admin <span class="badge-count">2</span>
+          </button>
+          <button type="button" class="filter-btn" data-filter="creative" role="tab" aria-selected="false"
+            aria-pressed="false">
+            Creative <span class="badge-count">2</span>
+          </button>
+        </div>
+
+        <!-- Portfolio Grid (4 Cards) -->
+        <div class="project-grid">
+
+          <!-- Card 1: Flare Alert -->
+          <div class="project-card" data-category="tech creative">
+            <div class="project-image">
+              <span class="project-badge-float"><i class="fas fa-trophy"></i> Double Award Winner</span>
+              <img src="assets/photo/flare-alert-logo.png" alt="Flare Alert Emergency Response Mobile System"
+                loading="lazy" decoding="async">
+              <div class="project-links">
+                <a href="project-flare-alert.html" class="project-link" aria-label="View Flare Alert Case Study">
+                  <i class="fas fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+            <div class="project-info">
+              <h3 class="project-title">Flare Alert — Emergency System</h3>
+              <p class="project-desc">
+                Cross-platform mobile emergency reporting application with real-time GPS incident dispatch, proximity
+                alerts, and instant status tracking. Awarded Outstanding System Developer & Designer.
+              </p>
+              <div class="tech-stack">
+                <span>Flutter</span>
+                <span>Firebase</span>
+                <span>Firestore</span>
+                <span>Node.js</span>
+                <span>Google APIs</span>
+              </div>
+              <a href="project-flare-alert.html" class="project-action-link">
+                Read Engineering Case Study <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 2: Ecofertile -->
+          <div class="project-card" data-category="creative tech">
+            <div class="project-image">
+              <span class="project-badge-float"><i class="fas fa-award"></i> Rank 2 & 3 Awards</span>
+              <img src="assets/photo/ecofertile.jpg" alt="Ecofertile Waste Filtration UI/UX System" loading="lazy"
+                decoding="async">
+              <div class="project-links">
+                <a href="project-ecofertile.html" class="project-link" aria-label="View Ecofertile Case Study">
+                  <i class="fas fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+            <div class="project-info">
+              <h3 class="project-title">Ecofertile — Waste Filtration UI/UX</h3>
+              <p class="project-desc">
+                Award-winning sustainable AgriTech interface converting agricultural solid and liquid waste into
+                fertilizer. Features intuitive stage telemetry, high-contrast monitors, and 3D animation simulation.
+              </p>
+              <div class="tech-stack">
+                <span>Figma</span>
+                <span>UI/UX Design</span>
+                <span>HTML5/CSS3</span>
+                <span>JavaScript</span>
+              </div>
+              <a href="project-ecofertile.html" class="project-action-link">
+                Read UI/UX Case Study <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 3: Municipal Treasury Operations -->
+          <div class="project-card" data-category="admin">
+            <div class="project-image">
+              <span class="project-badge-float"><i class="fas fa-check-double"></i> 450-Hour Practicum</span>
+              <div style="font-size: 3.5rem; color: var(--accent-indigo); text-align: center;">
+                <i class="fas fa-file-invoice-dollar"></i>
+              </div>
+              <div class="project-links">
+                <a href="#experience" class="project-link" aria-label="Scroll to Municipal Operations Experience">
+                  <i class="fas fa-arrow-down"></i>
+                </a>
+              </div>
+            </div>
+            <div class="project-info">
+              <h3 class="project-title">Municipal Treasury Records & Operations</h3>
+              <p class="project-desc">
+                High-volume administrative data verification, digital record indexing, taxpayer processing, and document
+                tracking executed at the Treasurer's Department, Caloocan City Hall.
+              </p>
+              <div class="tech-stack">
+                <span>Records Management</span>
+                <span>Data Verification</span>
+                <span>Spreadsheet Ops</span>
+                <span>Public Service QA</span>
+              </div>
+              <a href="#experience" class="project-action-link">
+                View Operational Timeline <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Card 4: Cloud Lead Capture & Operations Pipeline -->
+          <div class="project-card" data-category="admin tech">
+            <div class="project-image">
+              <span class="project-badge-float"><i class="fas fa-bolt"></i> Live Pipeline</span>
+              <div style="font-size: 3.5rem; color: var(--accent-purple); text-align: center;">
+                <i class="fas fa-network-wired"></i>
+              </div>
+              <div class="project-links">
+                <a href="#contact" class="project-link" aria-label="Test Live Lead Pipeline">
+                  <i class="fas fa-paper-plane"></i>
+                </a>
+              </div>
+            </div>
+            <div class="project-info">
+              <h3 class="project-title">Cloud Lead Capture & Operations Pipeline</h3>
+              <p class="project-desc">
+                Automated client inquiry triage, real-time Supabase cloud database logging, honeypot spam suppression,
+                and CRM routing designed for rapid customer response.
+              </p>
+              <div class="tech-stack">
+                <span>Supabase</span>
+                <span>CRM Automation</span>
+                <span>Inbox/Calendar Ops</span>
+                <span>Client Success</span>
+              </div>
+              <a href="#contact" class="project-action-link">
+                Test Live Inquiry Pipeline <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
         </div>
       </div>
-      <div class="commit">
-        <div class="commit-hash">commit 4a1c9e2</div>
-        <div class="commit-meta"><b>Author:</b> John Kenneth Buhay &nbsp; <b>Date:</b> Dec 2025 – Mar 2026</div>
-        <div class="commit-msg">
-          <div class="subject"><span class="type">intern:</span> Accounting, Bernales & Associates</div>
-          <p>Handled accounts payable, bookkeeping, and executed workflow liquidations using Xero software.</p>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="experience hidden">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Experience & Milestones</h2>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="timeline">
+          <!-- Item 1: Practicum -->
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <span class="timeline-date">Jan 2026 – Apr 2026</span>
+              <h3 class="timeline-title">Practicum Intern — Administrative & Document Processing</h3>
+              <div class="timeline-company">
+                <i class="fas fa-landmark"></i> Treasurer's Department, Caloocan City Hall
+              </div>
+              <p class="timeline-desc">
+                Completed 450 hours of structured public-sector administrative support. Accurately encoded taxpayer
+                transfers, audited tax payment archives, assisted taxpayers with document clearances, and maintained
+                inter-departmental record flows with strict accuracy and confidentiality.
+              </p>
+              <div class="timeline-tags">
+                <span>Tax Records Encoding</span>
+                <span>Document Verification</span>
+                <span>Public Assistance</span>
+                <span>Data Indexing</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2: Lead Developer Capstone -->
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <span class="timeline-date">Sept 2025 – May 2026</span>
+              <h3 class="timeline-title">Lead System Developer & UI/UX Designer (Capstone)</h3>
+              <div class="timeline-company">
+                <i class="fas fa-graduation-cap"></i> Systems Plus Computer College
+              </div>
+              <p class="timeline-desc">
+                Led architectural design and development for multiple flagship capstone projects (Flare Alert &
+                Ecofertile). Earned 4 institutional awards including Outstanding System Developer and Outstanding System
+                Designer for exemplary software architecture, user flow mapping, and technical execution.
+              </p>
+              <div class="timeline-tags">
+                <span>Flutter & Dart</span>
+                <span>Firebase Cloud Services</span>
+                <span>UI/UX Architecture</span>
+                <span>4 Institutional Awards</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact hidden">
+      <div class="container">
+        <div class="section-header text-center">
+          <h2 class="section-title">Get In Touch</h2>
+          <div class="section-line"></div>
+          <p class="contact-subtitle">
+            Currently open for Full-Stack Developer roles, Tech Virtual Assistant contracts, and consulting.
+          </p>
+        </div>
+
+        <div class="contact-content">
+          <div class="contact-info">
+            <div class="info-card">
+              <i class="fas fa-envelope"></i>
+              <h3>Direct Email</h3>
+              <p><a href="mailto:floreskenneth319@gmail.com">floreskenneth319@gmail.com</a></p>
+            </div>
+            <div class="info-card">
+              <i class="fas fa-map-marker-alt"></i>
+              <h3>Location</h3>
+              <p>Caloocan, Metro Manila, Philippines</p>
+            </div>
+            <div class="info-card">
+              <i class="fas fa-clock"></i>
+              <h3>Response SLA</h3>
+              <p>Under 24 hours guaranteed</p>
+            </div>
+
+            <div class="social-links" aria-label="Social Profiles">
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link"
+                aria-label="LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-link"
+                aria-label="GitHub Profile"><i class="fab fa-github"></i></a>
+              <a href="mailto:floreskenneth319@gmail.com" class="social-link" aria-label="Email Me Directly"><i
+                  class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+
+          <!-- Hardened Contact Form -->
+          <form class="contact-form" id="contactForm" novalidate>
+            <!-- Hidden honeypot anti-spam field -->
+            <input type="text" name="website_url" id="website_url" class="honeypot-field" tabindex="-1"
+              autocomplete="off" aria-hidden="true">
+
+            <div class="form-group">
+              <input type="text" id="name" name="name" placeholder="Your Name" required>
+              <label for="name">Your Name *</label>
+            </div>
+
+            <div class="form-group">
+              <input type="email" id="email" name="email" placeholder="Your Email" required>
+              <label for="email">Your Email *</label>
+            </div>
+
+            <div class="form-group">
+              <select id="service" name="service" required>
+                <option value="" disabled selected hidden></option>
+                <option value="Full-Stack Engineering">Full-Stack Mobile / Web Engineering</option>
+                <option value="UI/UX Prototyping">UI/UX Design & Prototyping</option>
+                <option value="Tech Virtual Assistance">Tech Virtual Assistance & Operations</option>
+                <option value="General Inquiry">General Opportunity / Consulting</option>
+              </select>
+              <label for="service">Service Category *</label>
+            </div>
+
+            <div class="form-group">
+              <input type="text" id="subject" name="subject" placeholder="Subject" required>
+              <label for="subject">Subject *</label>
+            </div>
+
+            <div class="form-group">
+              <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+              <label for="message">Your Message *</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary glow-effect w-100">
+              Transmit Message <i class="fas fa-paper-plane"></i>
+            </button>
+
+            <!-- Accessible status notification container -->
+            <div id="formStatus" role="status" aria-live="polite"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <a href="index.html" class="logo">
+        <img src="assets/photo/jkb-logo.jpg" alt="JKB Logo" class="logo-img" width="36" height="36" loading="lazy">
+        JK<span>B</span>
+      </a>
+      <p class="copyright">© 2026 John Kenneth Buhay. All rights reserved.</p>
+      <div class="status-indicator">
+        <span class="pulse-dot"></span> Available for select engineering & Tech VA contracts
+      </div>
     </div>
-  </div>
-</section>
+  </footer>
 
-<section id="contact">
-  <div class="container">
-    <span class="eyebrow">// contact</span>
-    <h2>Get in touch</h2>
-    <p>Currently open for new opportunities and collaborations.</p>
-    <a href="gmailto:floreskenneth319@gmail.com" class="btn"> Email Me</a>
-  </div>
-</section>
-
-<footer>
-  <p>© 2026 John Kenneth Buhay — <span class="status-dot" style="width:6px;height:6px;background:#3ED598;border-radius:50%;"></span> all systems operational</p>
-</footer>
-
-<script>
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      window.scrollTo({
-        top: target.offsetTop - 60,
-        behavior: 'smooth'
-      });
-    }
-  });
-});
-</script>
+  <!-- Supabase CDN and Client Script -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/script.js"></script>
 </body>
+
 </html>
