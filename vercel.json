@@ -5,13 +5,49 @@
   "redirects": [
     {
       "source": "/project-next-project.html",
-      "destination": "/project-ecofertile",
+      "destination": "/#hub",
       "permanent": true
     },
     {
       "source": "/project-next-project",
-      "destination": "/project-ecofertile",
+      "destination": "/#hub",
       "permanent": true
+    },
+    {
+      "source": "/project-flare-alert.html",
+      "destination": "/#hub",
+      "permanent": true
+    },
+    {
+      "source": "/project-flare-alert",
+      "destination": "/#hub",
+      "permanent": true
+    },
+    {
+      "source": "/project-ecofertile.html",
+      "destination": "/#hub",
+      "permanent": true
+    },
+    {
+      "source": "/project-ecofertile",
+      "destination": "/#hub",
+      "permanent": true
+    },
+    {
+      "source": "/resume.html",
+      "destination": "/legacy/resume.html",
+      "permanent": false
+    },
+    {
+      "source": "/resume",
+      "destination": "/legacy/resume.html",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/((?!assets/|legacy/|static/|favicon|.*\\..*).*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
@@ -33,7 +69,7 @@
       ]
     },
     {
-      "source": "/assets/(.*)",
+      "source": "/(assets|static)/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
