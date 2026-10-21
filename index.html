@@ -868,6 +868,71 @@
           </p>
         </div>
 
+        <!-- Interactive 3-Column Project Brief Funnel -->
+        <div class="brief-funnel" id="briefFunnel" data-brief-mode="capstone">
+          <!-- Column 1: Service Selector -->
+          <div class="brief-selector" role="radiogroup" aria-label="Select inquiry type">
+            <button type="button" class="brief-option is-active" data-brief-option="capstone" role="radio" aria-checked="true" id="briefOptCapstone">
+              <span class="brief-option-icon"><i class="fas fa-graduation-cap"></i></span>
+              <span class="brief-option-body">
+                <span class="brief-option-title">1. Capstone / Academic System</span>
+                <span class="brief-option-desc">End-to-end Flutter apps, GPS/maps integrations, Laravel or Firebase systems, and technical documentation.</span>
+              </span>
+              <span class="brief-option-dot" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="brief-option" data-brief-option="business" role="radio" aria-checked="false" id="briefOptBusiness">
+              <span class="brief-option-icon"><i class="fas fa-briefcase"></i></span>
+              <span class="brief-option-body">
+                <span class="brief-option-title">2. Business Web &amp; Mobile App</span>
+                <span class="brief-option-desc">Operations dashboards, booking or inventory portals, customer mobile apps, and conversion landing pages.</span>
+              </span>
+              <span class="brief-option-dot" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="brief-option" data-brief-option="engineering" role="radio" aria-checked="false" id="briefOptEngineering">
+              <span class="brief-option-icon"><i class="fas fa-code"></i></span>
+              <span class="brief-option-body">
+                <span class="brief-option-title">3. Full-Time / Contract Engineering Role</span>
+                <span class="brief-option-desc">Hiring for Full-Stack, Flutter Mobile, or Systems Developer roles in Metro Manila or remote.</span>
+              </span>
+              <span class="brief-option-dot" aria-hidden="true"></span>
+            </button>
+          </div>
+
+          <!-- Column 2: Dynamic Form -->
+          <form class="brief-form" id="briefForm" novalidate autocomplete="on">
+            <div class="brief-form-badge" id="briefBadge"><span aria-hidden="true">✦</span> <span id="briefBadgeText">CAPSTONE / ACADEMIC SYSTEM BRIEF</span></div>
+
+            <div class="brief-field">
+              <label for="briefName">Your Name</label>
+              <input type="text" id="briefName" name="briefName" placeholder="e.g., Maria Santos" autocomplete="name">
+            </div>
+            <div class="brief-field">
+              <label for="briefContact">Email or Contact Handle</label>
+              <input type="text" id="briefContact" name="briefContact" placeholder="e.g., maria@email.com" autocomplete="email">
+            </div>
+
+            <div class="brief-dynamic" id="briefDynamicFields" aria-live="polite"></div>
+          </form>
+
+          <!-- Column 3: Live Preview -->
+          <div class="brief-preview">
+            <div class="brief-preview-bar">
+              <span class="brief-preview-file"><i class="far fa-file-lines"></i> generated-brief.txt</span>
+              <span class="brief-live"><span class="brief-live-dot" aria-hidden="true"></span> live</span>
+            </div>
+            <pre class="brief-preview-body" id="briefPreview" aria-live="polite" aria-label="Generated brief preview"></pre>
+            <div class="brief-preview-actions">
+              <button type="button" class="btn btn-secondary brief-btn" id="briefCopyBtn">
+                <i class="far fa-copy"></i> <span>Copy Brief</span>
+              </button>
+              <button type="button" class="btn btn-primary glow-effect brief-btn" id="briefSendBtn">
+                <i class="far fa-envelope"></i> <span>Send via Email</span>
+              </button>
+            </div>
+            <div class="brief-status" id="briefStatus" role="status" aria-live="polite"></div>
+          </div>
+        </div>
+
         <div class="contact-content">
           <div class="contact-info">
             <!-- Curriculum Vitae / Resume Card -->

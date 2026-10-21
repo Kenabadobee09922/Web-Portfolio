@@ -1057,6 +1057,282 @@ function initDirectEmailCard() {
     });
 }
 
+// --- PROJECT BRIEF FUNNEL (3-column inquiry generator) ---
+function initBriefFunnel() {
+    const funnel = document.getElementById('briefFunnel');
+    if (!funnel) return;
+
+    const RECIPIENT = 'floreskenneth319@gmail.com';
+    const options = funnel.querySelectorAll('.brief-option');
+    const dynamicWrap = document.getElementById('briefDynamicFields');
+    const badgeText = document.getElementById('briefBadgeText');
+    const preview = document.getElementById('briefPreview');
+    const nameInput = document.getElementById('briefName');
+    const contactInput = document.getElementById('briefContact');
+    const copyBtn = document.getElementById('briefCopyBtn');
+    const sendBtn = document.getElementById('briefSendBtn');
+    const statusEl = document.getElementById('briefStatus');
+
+    const TIMELINES = ['Flexible / Consultation', 'ASAP (within 2 weeks)', '1 month', '2–3 months', '3+ months'];
+
+    const MODES = {
+        capstone: {
+            label: '1. Capstone / Academic System',
+            short: 'Capstone / Academic System',
+            badge: 'CAPSTONE / ACADEMIC SYSTEM BRIEF',
+            detailsHeading: 'Project details',
+            fields: [
+                { key: 'school', label: 'School / Program', type: 'text', placeholder: 'e.g., BSIT — 4th Year' },
+                { key: 'platform', label: 'Target Platform', type: 'select', options: ['Mobile App (Flutter)', 'Web System (Laravel / PHP)', 'Web + Mobile (Full Stack)', 'Firebase Cloud System', 'Not sure yet'] },
+                { key: 'stage', label: 'Current Stage', type: 'select', options: ['Title Proposal', 'Development', 'Defense Prep', 'Revisions / Final Polish'] },
+                { key: 'timeline', label: 'Target Timeline', type: 'select', options: TIMELINES },
+                { key: 'details', label: 'System Requirements', type: 'textarea', placeholder: 'Describe the system title, core modules, and what your panel expects...' }
+            ]
+        },
+        business: {
+            label: '2. Business Web & Mobile App',
+            short: 'Business Web & Mobile App',
+            badge: 'BUSINESS WEB & MOBILE APP BRIEF',
+            detailsHeading: 'Project details',
+            fields: [
+                { key: 'brand', label: 'Business / Brand Name', type: 'text', placeholder: 'e.g., Santos Bakery Co.' },
+                { key: 'product', label: 'Product Type', type: 'select', options: ['Web Dashboard / Portal', 'Customer Mobile App', 'Booking / Inventory System', 'Landing Page / Website', 'Web + Mobile Bundle'] },
+                { key: 'budget', label: 'Budget Range', type: 'select', options: ['₱20k – ₱50k', '₱50k – ₱100k', '₱100k – ₱200k', '₱200k+', 'Let\u2019s discuss'] },
+                { key: 'timeline', label: 'Target Timeline', type: 'select', options: TIMELINES },
+                { key: 'details', label: 'System Requirements', type: 'textarea', placeholder: 'Describe the business problem, key users, and must-have features...' }
+            ]
+        },
+        engineering: {
+            label: '3. Full-Time / Contract Engineering Role',
+            short: 'Engineering Role',
+            badge: 'ENGINEERING ROLE RECRUITMENT BRIEF',
+            detailsHeading: 'Role details',
+            fields: [
+                { key: 'company', label: 'Company / Team', type: 'text', placeholder: 'e.g., Tech Corp — Platform Team' },
+                { key: 'role', label: 'Role', type: 'select', options: ['Full-Stack Developer', 'Flutter Mobile Engineer', 'Systems Developer', 'Frontend Developer', 'Backend Developer'] },
+                { key: 'arrangement', label: 'Arrangement', type: 'select', options: ['Full-Time • Onsite (Metro Manila)', 'Full-Time • Remote', 'Full-Time • Hybrid', 'Contract • Remote', 'Contract • Onsite / Hybrid'] },
+                { key: 'timeline', label: 'Target Timeline', type: 'select', options: TIMELINES },
+                { key: 'details', label: 'Role Details', type: 'textarea', placeholder: 'Share the role scope, team, tech stack, and interview process...' }
+            ]
+        }
+    };
+
+    // Per-mode values persist when switching tabs
+    const state = { capstone: {}, business: {}, engineering: {} };
+    let mode = funnel.getAttribute('data-brief-mode') || 'capstone';
+    if (!MODES[mode]) mode = 'capstone';
+
+    function renderFields() {
+        const config = MODES[mode];
+        const values = state[mode];
+        dynamicWrap.textContent = '';
+
+        config.fields.forEach(field => {
+            const id = `brief_${mode}_${field.key}`;
+            const wrap = document.createElement('div');
+            wrap.className = 'brief-field';
+
+            const label = document.createElement('label');
+            label.htmlFor = id;
+            label.textContent = field.label;
+
+            let control;
+            if (field.type === 'select') {
+                control = document.createElement('select');
+                field.options.forEach(opt => {
+                    const o = document.createElement('option');
+                    o.value = opt;
+                    o.textContent = opt;
+                    control.appendChild(o);
+                });
+                if (values[field.key] === undefined) values[field.key] = field.options[0];
+            } else if (field.type === 'textarea') {
+                control = document.createElement('textarea');
+                control.rows = 4;
+                control.placeholder = field.placeholder || '';
+            } else {
+                control = document.createElement('input');
+                control.type = 'text';
+                control.placeholder = field.placeholder || '';
+            }
+
+            control.id = id;
+            control.name = field.key;
+            control.value = values[field.key] || '';
+            const update = () => { values[field.key] = control.value; renderPreview(); };
+            control.addEventListener('input', update);
+            control.addEventListener('change', update);
+
+            wrap.appendChild(label);
+            wrap.appendChild(control);
+            dynamicWrap.appendChild(wrap);
+        });
+
+        // Restart the fade-in transition on mode switch
+        dynamicWrap.style.animation = 'none';
+        void dynamicWrap.offsetWidth;
+        dynamicWrap.style.animation = '';
+    }
+
+    function buildBrief() {
+        const config = MODES[mode];
+        const values = state[mode];
+        const name = nameInput.value.trim();
+        const contact = contactInput.value.trim();
+        const lines = [
+            'Hi John Kenneth,',
+            '',
+            `I'm reaching out about: ${config.label}`,
+            '',
+            `— ${config.badge} —`,
+            `Name: ${name || '[your name]'}`,
+            `Contact: ${contact || '[your email or handle]'}`
+        ];
+
+        config.fields.forEach(field => {
+            if (field.type === 'textarea') return;
+            const val = (values[field.key] || '').trim();
+            lines.push(`${field.label}: ${val || '—'}`);
+        });
+
+        const details = (values.details || '').trim();
+        lines.push('', `${config.detailsHeading}:`);
+        lines.push(details || 'Let\u2019s schedule a quick call to discuss scope and next steps.');
+        lines.push('', 'Sent from your portfolio inquiry funnel.');
+        return lines.join('\n');
+    }
+
+    function renderPreview() {
+        preview.textContent = buildBrief();
+    }
+
+    function setStatus(message, type) {
+        statusEl.textContent = message;
+        statusEl.classList.toggle('is-error', type === 'error');
+        statusEl.classList.toggle('is-success', type === 'success');
+    }
+
+    function setMode(next) {
+        if (!MODES[next] || next === mode) return;
+        mode = next;
+        funnel.setAttribute('data-brief-mode', mode);
+        options.forEach(opt => {
+            const active = opt.getAttribute('data-brief-option') === mode;
+            opt.classList.toggle('is-active', active);
+            opt.setAttribute('aria-checked', active ? 'true' : 'false');
+        });
+        badgeText.textContent = MODES[mode].badge;
+        setStatus('', null);
+        renderFields();
+        renderPreview();
+    }
+
+    options.forEach(opt => {
+        opt.addEventListener('click', () => setMode(opt.getAttribute('data-brief-option')));
+        opt.addEventListener('keydown', (e) => {
+            // Arrow-key navigation within the radiogroup
+            if (!['ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft'].includes(e.key)) return;
+            e.preventDefault();
+            const list = Array.from(options);
+            const idx = list.indexOf(opt);
+            const dir = (e.key === 'ArrowDown' || e.key === 'ArrowRight') ? 1 : -1;
+            const target = list[(idx + dir + list.length) % list.length];
+            target.focus();
+            setMode(target.getAttribute('data-brief-option'));
+        });
+    });
+
+    [nameInput, contactInput].forEach(input => {
+        input.addEventListener('input', () => {
+            input.closest('.brief-field').classList.remove('has-error');
+            renderPreview();
+        });
+    });
+
+    // Copy Brief
+    function fallbackCopy(text) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        let ok = false;
+        try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+        document.body.removeChild(ta);
+        return ok;
+    }
+
+    let copyTimer = null;
+    copyBtn.addEventListener('click', async () => {
+        const text = buildBrief();
+        let ok = false;
+        try {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(text);
+                ok = true;
+            } else {
+                ok = fallbackCopy(text);
+            }
+        } catch (err) {
+            ok = fallbackCopy(text);
+        }
+
+        const labelEl = copyBtn.querySelector('span');
+        if (ok) {
+            copyBtn.classList.add('is-copied');
+            labelEl.textContent = 'Copied!';
+            setStatus('Brief copied to clipboard.', 'success');
+        } else {
+            setStatus('Copy failed — please select the text manually.', 'error');
+        }
+        clearTimeout(copyTimer);
+        copyTimer = setTimeout(() => {
+            copyBtn.classList.remove('is-copied');
+            labelEl.textContent = 'Copy Brief';
+        }, 2000);
+    });
+
+    // Send via Email (Gmail compose, mailto fallback)
+    sendBtn.addEventListener('click', () => {
+        const name = nameInput.value.trim();
+        const contact = contactInput.value.trim();
+        let firstInvalid = null;
+
+        if (!name) {
+            nameInput.closest('.brief-field').classList.add('has-error');
+            firstInvalid = firstInvalid || nameInput;
+        }
+        if (!contact) {
+            contactInput.closest('.brief-field').classList.add('has-error');
+            firstInvalid = firstInvalid || contactInput;
+        }
+        if (firstInvalid) {
+            setStatus('Please add your name and a way to reach you before sending.', 'error');
+            firstInvalid.focus();
+            return;
+        }
+
+        const subject = encodeURIComponent(`[${MODES[mode].short}] Brief from ${name}`);
+        const body = encodeURIComponent(buildBrief());
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${RECIPIENT}&su=${subject}&body=${body}`;
+
+        // Note: passing 'noopener' to window.open makes it return null, so detach opener manually
+        const win = window.open(gmailUrl, '_blank');
+        if (win) {
+            try { win.opener = null; } catch (err) { /* ignore */ }
+            setStatus('Opening Gmail compose in a new tab…', 'success');
+        } else {
+            window.location.href = `mailto:${RECIPIENT}?subject=${subject}&body=${body}`;
+            setStatus('Pop-up blocked — opening your default mail app instead.', 'success');
+        }
+    });
+
+    renderFields();
+    renderPreview();
+}
+
 // --- DOM INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
@@ -1070,4 +1346,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initContactForm();
     initResumeModal();
     initDirectEmailCard();
+    initBriefFunnel();
 });

@@ -1019,13 +1019,13 @@ section {
 }
 
 /* Light Theme support for tool cards */
-.light-theme .tool-icon-box {
+[data-theme="light"] .tool-icon-box {
     background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.08);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
 }
 
-.light-theme .tool-card:hover .tool-icon-box {
+[data-theme="light"] .tool-card:hover .tool-icon-box {
     background: #ffffff;
     border-color: var(--accent-primary);
     box-shadow: 0 6px 18px rgba(99, 102, 241, 0.2);
@@ -2997,4 +2997,400 @@ footer {
 [data-theme="light"] .case-nav-card:hover {
     border-color: #4338ca;
     box-shadow: 0 10px 25px rgba(67, 56, 202, 0.1);
+}
+
+/* =========================================================
+   PROJECT BRIEF FUNNEL (3-column inquiry generator)
+   ========================================================= */
+.brief-funnel {
+    --brief-accent: #22d3ee;
+    --brief-accent-rgb: 34, 211, 238;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1.1fr;
+    gap: 22px;
+    align-items: stretch;
+    margin-bottom: 55px;
+}
+
+.brief-funnel[data-brief-mode="business"] {
+    --brief-accent: #818cf8;
+    --brief-accent-rgb: 129, 140, 248;
+}
+
+.brief-funnel[data-brief-mode="engineering"] {
+    --brief-accent: #34d399;
+    --brief-accent-rgb: 52, 211, 153;
+}
+
+[data-theme="light"] .brief-funnel { --brief-accent: #0891b2; --brief-accent-rgb: 8, 145, 178; }
+[data-theme="light"] .brief-funnel[data-brief-mode="business"] { --brief-accent: #4338ca; --brief-accent-rgb: 67, 56, 202; }
+[data-theme="light"] .brief-funnel[data-brief-mode="engineering"] { --brief-accent: #059669; --brief-accent-rgb: 5, 150, 105; }
+
+/* Column 1 — selector cards */
+.brief-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.brief-option {
+    --opt-accent: #22d3ee;
+    --opt-accent-rgb: 34, 211, 238;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 14px;
+    align-items: start;
+    width: 100%;
+    text-align: left;
+    padding: 18px;
+    border-radius: 14px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.brief-option[data-brief-option="business"] { --opt-accent: #818cf8; --opt-accent-rgb: 129, 140, 248; }
+.brief-option[data-brief-option="engineering"] { --opt-accent: #34d399; --opt-accent-rgb: 52, 211, 153; }
+[data-theme="light"] .brief-option { --opt-accent: #0891b2; --opt-accent-rgb: 8, 145, 178; }
+[data-theme="light"] .brief-option[data-brief-option="business"] { --opt-accent: #4338ca; --opt-accent-rgb: 67, 56, 202; }
+[data-theme="light"] .brief-option[data-brief-option="engineering"] { --opt-accent: #059669; --opt-accent-rgb: 5, 150, 105; }
+
+.brief-option:hover {
+    border-color: rgba(var(--opt-accent-rgb), 0.45);
+    transform: translateY(-2px);
+}
+
+.brief-option:focus-visible {
+    outline: 2px solid var(--opt-accent);
+    outline-offset: 2px;
+}
+
+.brief-option.is-active {
+    border-color: rgba(var(--opt-accent-rgb), 0.75);
+    background: linear-gradient(135deg, rgba(var(--opt-accent-rgb), 0.14), rgba(var(--opt-accent-rgb), 0.03)), var(--glass-bg);
+    box-shadow: 0 0 0 1px rgba(var(--opt-accent-rgb), 0.25), 0 10px 30px rgba(var(--opt-accent-rgb), 0.18);
+}
+
+.brief-option-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    transition: var(--transition);
+}
+
+.brief-option.is-active .brief-option-icon {
+    color: var(--opt-accent);
+    border-color: rgba(var(--opt-accent-rgb), 0.45);
+    background: rgba(var(--opt-accent-rgb), 0.12);
+}
+
+.brief-option-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.brief-option-title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.3;
+    color: var(--text-primary);
+}
+
+.brief-option-desc {
+    font-size: 0.84rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+.brief-option-dot {
+    width: 16px;
+    height: 16px;
+    margin-top: 3px;
+    border-radius: 50%;
+    border: 1.5px solid var(--text-muted);
+    opacity: 0.6;
+    transition: var(--transition);
+}
+
+.brief-option.is-active .brief-option-dot {
+    opacity: 1;
+    border-color: var(--opt-accent);
+    background: var(--opt-accent);
+    box-shadow: 0 0 12px rgba(var(--opt-accent-rgb), 0.8);
+}
+
+/* Column 2 — form */
+.brief-form {
+    padding: 22px;
+    border-radius: 16px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+}
+
+.brief-form-badge {
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, ui-monospace, monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--brief-accent);
+    transition: color 0.3s ease;
+}
+
+.brief-dynamic {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    animation: briefFadeIn 0.35s ease;
+}
+
+@keyframes briefFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.brief-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.brief-field label {
+    font-size: 0.84rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.brief-field input,
+.brief-field select,
+.brief-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: var(--input-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 1rem; /* prevents iOS zoom */
+    outline: none;
+    transition: var(--transition);
+}
+
+.brief-field input::placeholder,
+.brief-field textarea::placeholder {
+    color: var(--text-muted);
+    opacity: 0.6;
+}
+
+.brief-field select {
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+.brief-field select option {
+    background: var(--modal-card-bg);
+    color: var(--text-primary);
+}
+
+.brief-field textarea {
+    resize: vertical;
+    min-height: 96px;
+}
+
+.brief-field input:focus,
+.brief-field select:focus,
+.brief-field textarea:focus {
+    border-color: rgba(var(--brief-accent-rgb), 0.7);
+    box-shadow: 0 0 0 3px rgba(var(--brief-accent-rgb), 0.15);
+}
+
+.brief-field.has-error input {
+    border-color: var(--status-error);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+/* Column 3 — live preview */
+.brief-preview {
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    background: var(--code-bg);
+    border: 1px solid var(--glass-border);
+    overflow: hidden;
+    min-width: 0;
+}
+
+.brief-preview-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--glass-border);
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.brief-preview-file i {
+    margin-right: 6px;
+}
+
+.brief-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--brief-accent);
+    font-weight: 600;
+}
+
+.brief-live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--brief-accent);
+    animation: briefPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes briefPulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(var(--brief-accent-rgb), 0.6); }
+    50% { opacity: 0.55; box-shadow: 0 0 0 5px rgba(var(--brief-accent-rgb), 0); }
+}
+
+.brief-preview-body {
+    flex: 1;
+    margin: 0;
+    padding: 18px 16px;
+    min-height: 280px;
+    max-height: 460px;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, ui-monospace, monospace;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: var(--text-primary);
+}
+
+.brief-preview-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 16px;
+    border-top: 1px solid var(--glass-border);
+}
+
+.brief-btn {
+    justify-content: center;
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 0.9rem;
+}
+
+.brief-btn.is-copied {
+    border-color: var(--status-success);
+    color: var(--status-success);
+}
+
+.brief-status {
+    min-height: 0;
+    padding: 0 16px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    transition: var(--transition);
+}
+
+.brief-status:not(:empty) {
+    padding-bottom: 14px;
+}
+
+.brief-status.is-error { color: var(--status-error); }
+.brief-status.is-success { color: var(--status-success); }
+
+/* Light mode refinements */
+[data-theme="light"] .brief-option-icon {
+    background: #f8fafc;
+}
+
+[data-theme="light"] .brief-preview {
+    background: #f8fafc;
+    box-shadow: var(--card-shadow);
+}
+
+[data-theme="light"] .brief-form {
+    box-shadow: var(--card-shadow);
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+    .brief-funnel {
+        grid-template-columns: 1fr 1fr;
+    }
+    .brief-selector {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .brief-option-dot {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .brief-funnel {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        margin-bottom: 40px;
+    }
+    .brief-selector {
+        grid-template-columns: 1fr;
+    }
+    .brief-option-dot {
+        display: block;
+    }
+    .brief-preview-body {
+        min-height: 220px;
+    }
+}
+
+@media (max-width: 420px) {
+    .brief-preview-actions {
+        grid-template-columns: 1fr;
+    }
+    .brief-option {
+        padding: 14px;
+        gap: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .brief-live-dot,
+    .brief-dynamic {
+        animation: none;
+    }
 }
