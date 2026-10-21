@@ -907,8 +907,8 @@ function initDirectEmailCard() {
     const emailCard = document.getElementById('directEmailCard');
     if (!emailCard) return;
 
-    emailCard.addEventListener('click', (e) => {
-        e.preventDefault();
+    function openGmailCompose(e) {
+        if (e) e.preventDefault();
         const recipient = 'floreskenneth319@gmail.com';
         const subject = encodeURIComponent('Project Inquiry via Portfolio - John Kenneth Buhay');
         const body = encodeURIComponent(
@@ -924,6 +924,13 @@ function initDirectEmailCard() {
         if (!opened || opened.closed || typeof opened.closed === 'undefined') {
             // Fallback for pop-up blockers: standard mailto link
             window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+        }
+    }
+
+    emailCard.addEventListener('click', openGmailCompose);
+    emailCard.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            openGmailCompose(e);
         }
     });
 }

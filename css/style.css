@@ -2595,45 +2595,6 @@ footer {
     box-shadow: 0 14px 30px var(--glow-indigo);
 }
 
-.info-card-badge {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    font-size: 0.72rem;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 20px;
-    background: rgba(234, 67, 53, 0.12);
-    color: #ea4335;
-    border: 1px solid rgba(234, 67, 53, 0.3);
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    transition: var(--transition);
-}
-
-.info-card-clickable:hover .info-card-badge {
-    background: #ea4335;
-    color: #ffffff;
-    box-shadow: 0 0 12px rgba(234, 67, 53, 0.45);
-}
-
-.info-card-action {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--accent-primary);
-    margin-top: 8px;
-    transition: var(--transition);
-}
-
-.info-card-clickable:hover .info-card-action {
-    gap: 10px;
-    color: var(--accent-secondary);
-}
-
 /* ==========================================================================
    REFINED LIGHT MODE COLOR GRADING UI
    Comprehensive contrast, visual hierarchy, and component refinements
@@ -2847,12 +2808,6 @@ footer {
 
 [data-theme="light"] .info-card p {
     color: #334155;
-}
-
-[data-theme="light"] .info-card-badge {
-    background: rgba(234, 67, 53, 0.1);
-    color: #dc2626;
-    border-color: rgba(234, 67, 53, 0.25);
 }
 
 [data-theme="light"] .social-link {
