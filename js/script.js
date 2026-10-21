@@ -361,6 +361,7 @@ function initCertificateModal() {
 }
 
 // --- 6. HARDENED ANTI-SPAM SUPABASE CONTACT FORM ---
+// --- 6. RESPONSIVE CONTACT FORM WITH GMAIL COMPOSE INTEGRATION ---
 function initContactForm() {
     const contactForm = document.getElementById('contactForm');
     if (!contactForm) return;
@@ -376,135 +377,152 @@ function initContactForm() {
         return div;
     }
 
-    contactForm.addEventListener('submit', async (e) => {
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const serviceSelect = document.getElementById('service');
+    const subjectInput = document.getElementById('subject');
+    const messageInput = document.getElementById('message');
+    const honeypot = document.getElementById('website_url');
+
+    const inputs = [nameInput, emailInput, serviceSelect, subjectInput, messageInput];
+
+    // Real-time floating label sync & error clearing
+    inputs.forEach(input => {
+        if (!input) return;
+        const syncValue = () => {
+            const hasVal = Boolean(input.value && input.value.trim() !== '');
+            input.parentElement.classList.toggle('has-value', hasVal);
+            if (hasVal) {
+                input.parentElement.classList.remove('has-error');
+            }
+        };
+
+        input.addEventListener('input', syncValue);
+        input.addEventListener('change', syncValue);
+        input.addEventListener('blur', syncValue);
+        syncValue();
+    });
+
+    contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        const originalBtnHtml = submitBtn ? submitBtn.innerHTML : 'Send Message';
-
         // 1. Anti-spam honeypot verification
-        const honeypot = document.getElementById('website_url');
         if (honeypot && honeypot.value.trim() !== '') {
-            console.warn('Bot detected via honeypot.');
-            if (submitBtn) submitBtn.disabled = true;
+            console.warn('Bot submission blocked via honeypot.');
             statusEl.className = 'success';
             statusEl.innerHTML = '<i class="fas fa-check-circle"></i> Message received. Thank you!';
             contactForm.reset();
             return;
         }
 
-        // 2. Client-side rate limiting (60 second cooldown)
-        const RATE_LIMIT_MS = 60 * 1000;
-        const lastSent = localStorage.getItem('jkb_last_inquiry_ts');
-        const now = Date.now();
-
-        if (lastSent && now - parseInt(lastSent, 10) < RATE_LIMIT_MS) {
-            const waitSeconds = Math.ceil((RATE_LIMIT_MS - (now - parseInt(lastSent, 10))) / 1000);
-            statusEl.className = 'error';
-            statusEl.innerHTML = `<i class="fas fa-hourglass-half"></i> Please wait ${waitSeconds} seconds before submitting another inquiry.`;
-            return;
-        }
-
-        // 3. Extract & Validate form values
-        const nameInput = document.getElementById('name');
-        const emailInput = document.getElementById('email');
-        const serviceSelect = document.getElementById('service');
-        const subjectInput = document.getElementById('subject');
-        const messageInput = document.getElementById('message');
-
+        // 2. Extract input values
         const name = nameInput ? nameInput.value.trim() : '';
         const email = emailInput ? emailInput.value.trim() : '';
-        const service = serviceSelect ? serviceSelect.value : 'General Inquiry';
+        const service = serviceSelect ? serviceSelect.value.trim() : '';
         const subject = subjectInput ? subjectInput.value.trim() : '';
         const message = messageInput ? messageInput.value.trim() : '';
 
-        // Email regex check
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!name || !email || !message) {
-            statusEl.className = 'error';
-            statusEl.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please fill in all required fields.';
-            return;
-        }
-
-        if (!emailRegex.test(email)) {
-            statusEl.className = 'error';
-            statusEl.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please enter a valid email address.';
-            emailInput.focus();
-            return;
-        }
-
-        // Set Loading UI state
-        if (submitBtn) {
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Transmitting...';
-            submitBtn.disabled = true;
-        }
+        // 3. Clear previous error indicators
+        inputs.forEach(input => {
+            if (input && input.parentElement) {
+                input.parentElement.classList.remove('has-error');
+            }
+        });
         statusEl.className = '';
         statusEl.innerHTML = '';
 
-        try {
-            if (!supabaseClient) {
-                // If Supabase credentials are not populated yet, offer graceful fallback
-                console.info('Supabase URL/Key unconfigured. Opening fallback mail client...');
-                const mailtoBody = encodeURIComponent(
-                    `Name: ${name}\nEmail: ${email}\nService: ${service}\n\nMessage:\n${message}`
-                );
-                const mailtoUrl = `mailto:floreskenneth319@gmail.com?subject=${encodeURIComponent(subject || 'Portfolio Inquiry: ' + service)}&body=${mailtoBody}`;
-                
-                statusEl.className = 'success';
-                statusEl.innerHTML = `
-                    <i class="fas fa-info-circle"></i> Opening default mail app... If it didn't open, email me directly at 
-                    <a href="mailto:floreskenneth319@gmail.com" style="color:var(--accent-indigo);text-decoration:underline;">floreskenneth319@gmail.com</a>.
-                `;
-                window.location.href = mailtoUrl;
-                contactForm.reset();
-                localStorage.setItem('jkb_last_inquiry_ts', Date.now().toString());
-                return;
+        // 4. Form Validation for all required fields
+        const errors = [];
+        let firstInvalidField = null;
+
+        if (!name) {
+            errors.push('Please enter your name.');
+            if (nameInput) {
+                nameInput.parentElement.classList.add('has-error');
+                if (!firstInvalidField) firstInvalidField = nameInput;
             }
+        }
 
-            // Real Supabase insert
-            const { data, error } = await supabaseClient
-                .from('inquiries')
-                .insert([
-                    {
-                        name: name,
-                        email: email,
-                        service: service,
-                        subject: subject,
-                        message: message
-                    }
-                ]);
-
-            if (error) throw error;
-
-            // Success state
-            localStorage.setItem('jkb_last_inquiry_ts', Date.now().toString());
-            statusEl.className = 'success';
-            statusEl.innerHTML = '<i class="fas fa-check-circle"></i> Thank you! Your message has been sent successfully. I will respond within 24 hours.';
-            contactForm.reset();
-
-            if (submitBtn) {
-                submitBtn.innerHTML = '<i class="fas fa-check"></i> Sent!';
-                submitBtn.style.background = '#10b981';
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email) {
+            errors.push('Please enter your email address.');
+            if (emailInput) {
+                emailInput.parentElement.classList.add('has-error');
+                if (!firstInvalidField) firstInvalidField = emailInput;
             }
-        } catch (err) {
-            console.error('Contact Form Submission Error:', err);
+        } else if (!emailRegex.test(email)) {
+            errors.push('Please enter a valid email address (e.g., name@example.com).');
+            if (emailInput) {
+                emailInput.parentElement.classList.add('has-error');
+                if (!firstInvalidField) firstInvalidField = emailInput;
+            }
+        }
+
+        if (!service) {
+            errors.push('Please select a service category.');
+            if (serviceSelect) {
+                serviceSelect.parentElement.classList.add('has-error');
+                if (!firstInvalidField) firstInvalidField = serviceSelect;
+            }
+        }
+
+        if (!subject) {
+            errors.push('Please enter a subject.');
+            if (subjectInput) {
+                subjectInput.parentElement.classList.add('has-error');
+                if (!firstInvalidField) firstInvalidField = subjectInput;
+            }
+        }
+
+        if (!message) {
+            errors.push('Please write your message.');
+            if (messageInput) {
+                messageInput.parentElement.classList.add('has-error');
+                if (!firstInvalidField) firstInvalidField = messageInput;
+            }
+        }
+
+        if (errors.length > 0) {
             statusEl.className = 'error';
-            statusEl.innerHTML = `
-                <i class="fas fa-exclamation-triangle"></i> Network submission error. Please email directly at 
-                <a href="mailto:floreskenneth319@gmail.com" style="color:#ffffff;text-decoration:underline;">floreskenneth319@gmail.com</a>.
-            `;
-            if (submitBtn) {
-                submitBtn.innerHTML = '<i class="fas fa-redo"></i> Try Again';
-                submitBtn.style.background = '#ef4444';
+            statusEl.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${errors[0]}`;
+            if (firstInvalidField) {
+                firstInvalidField.focus();
             }
-        } finally {
+            return;
+        }
+
+        // 5. Structure Email Content according to specifications
+        const recipient = 'floreskenneth319@gmail.com';
+        const formattedSubject = `[${service}] - ${subject}`;
+        const formattedBody = `Name: ${name}\nEmail: ${email}\nService Category: ${service}\n\nMessage:\n${message}`;
+
+        // 6. Generate Gmail Web Intent & fallback mailto URL
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(recipient)}&su=${encodeURIComponent(formattedSubject)}&body=${encodeURIComponent(formattedBody)}`;
+        const mailtoUrl = `mailto:${encodeURIComponent(recipient)}?subject=${encodeURIComponent(formattedSubject)}&body=${encodeURIComponent(formattedBody)}`;
+
+        // 7. Visual Feedback & Trigger Action
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalBtnHtml = submitBtn ? submitBtn.innerHTML : 'Transmit Message';
+
+        if (submitBtn) {
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane fa-spin"></i> Launching Gmail...';
+            submitBtn.disabled = true;
             setTimeout(() => {
-                if (submitBtn) {
-                    submitBtn.innerHTML = originalBtnHtml;
-                    submitBtn.style.background = '';
-                    submitBtn.disabled = false;
-                }
-            }, 4000);
+                submitBtn.innerHTML = originalBtnHtml;
+                submitBtn.disabled = false;
+            }, 3000);
+        }
+
+        statusEl.className = 'success';
+        statusEl.innerHTML = `
+            <i class="fas fa-check-circle"></i> <strong>Opening Gmail compose...</strong><br>
+            <span style="font-size:0.85rem; opacity:0.9;">If Gmail did not open automatically, <a href="${mailtoUrl}" style="color:inherit;text-decoration:underline;font-weight:600;">click here to open your default email app</a>.</span>
+        `;
+
+        // Direct action: open Gmail compose in new tab
+        const opened = window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+        if (!opened || opened.closed || typeof opened.closed === 'undefined') {
+            window.location.href = mailtoUrl;
         }
     });
 }

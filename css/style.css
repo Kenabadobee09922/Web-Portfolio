@@ -1622,28 +1622,34 @@ section {
     background: var(--bg-elevated);
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    padding: 38px;
+    padding: clamp(20px, 4vw, 38px);
     border-radius: 18px;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .form-group {
     position: relative;
     margin-bottom: 22px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .form-group input,
 .form-group textarea,
 .form-group select {
     width: 100%;
-    padding: 14px 18px;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: clamp(13px, 2.5vw, 16px) clamp(14px, 3vw, 18px);
     background: rgba(0, 0, 0, 0.35);
     border: 1px solid var(--glass-border);
     border-radius: 10px;
     color: var(--text-primary);
     font-family: var(--font-body);
-    font-size: 0.96rem;
+    font-size: 1rem; /* 16px prevents iOS Safari auto-zoom */
     transition: var(--transition);
     outline: none;
     appearance: none;
@@ -1655,7 +1661,7 @@ section {
     background-repeat: no-repeat;
     background-position: right 16px center;
     background-size: 16px;
-    padding-right: 40px;
+    padding-right: 42px;
 }
 
 .form-group select option {
@@ -1665,7 +1671,7 @@ section {
 
 .form-group textarea {
     resize: vertical;
-    min-height: 120px;
+    min-height: 125px;
 }
 
 .form-group label {
@@ -1706,6 +1712,27 @@ section {
 .form-group input::placeholder,
 .form-group textarea::placeholder {
     color: transparent;
+}
+
+/* Error Validation Highlighting */
+.form-group.has-error input,
+.form-group.has-error textarea,
+.form-group.has-error select {
+    border-color: #ef4444 !important;
+    background: rgba(239, 68, 68, 0.08) !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.22) !important;
+    animation: shakeInput 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.form-group.has-error label {
+    color: #f87171 !important;
+}
+
+@keyframes shakeInput {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
+    40%, 60% { transform: translate3d(3px, 0, 0); }
 }
 
 /* Anti-Spam Honeypot Field */
@@ -2799,6 +2826,18 @@ footer {
 [data-theme="light"] .form-group select:valid ~ label {
     background: #ffffff;
     color: #4338ca;
+}
+
+[data-theme="light"] .form-group.has-error input,
+[data-theme="light"] .form-group.has-error textarea,
+[data-theme="light"] .form-group.has-error select {
+    border-color: #dc2626 !important;
+    background: #fef2f2 !important;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.18) !important;
+}
+
+[data-theme="light"] .form-group.has-error label {
+    color: #dc2626 !important;
 }
 
 /* Info Cards & Direct Email Card */
