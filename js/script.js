@@ -731,65 +731,169 @@ function initProjectCarousel() {
     updateDots();
 }
 
-// --- 10. TOOLS & TECH STACK SLIDESHOW ---
+// --- 10. TOOLS & TECH STACK SLIDESHOW (SEAMLESS INFINITE LOOP) ---
 function initToolsSlideshow() {
     const track = document.getElementById('toolsTrack');
     const trackWrapper = document.getElementById('toolsTrackWrapper');
     const prevBtn = document.getElementById('toolsPrevBtn');
     const nextBtn = document.getElementById('toolsNextBtn');
     const filterBtns = document.querySelectorAll('.tool-filter-btn');
-    const cards = document.querySelectorAll('.tool-card');
 
     if (!track || !trackWrapper) return;
 
+    // Cache original cards for dynamic filtering and seamless duplication
+    const originalCards = Array.from(track.querySelectorAll('.tool-card')).map(card => card.cloneNode(true));
+    let loopWidth = 0;
+    let isPaused = false;
+    let resumeTimeout = null;
+    let animationFrameId = null;
+    let lastTime = null;
+    let currentFilter = 'all';
+    let currentMatching = [];
+
+    function updateMetrics() {
+        const renderedCards = track.querySelectorAll('.tool-card');
+        const count = currentMatching.length;
+        if (renderedCards.length >= count * 2 && count > 0) {
+            const card0 = renderedCards[0];
+            const cardN = renderedCards[count];
+            loopWidth = cardN.offsetLeft - card0.offsetLeft;
+        } else {
+            loopWidth = track.scrollWidth / 3;
+        }
+    }
+
+    function buildTrack(filterValue) {
+        currentFilter = filterValue;
+        track.innerHTML = '';
+
+        // Filter matching cards from cached templates
+        currentMatching = originalCards.filter(card => {
+            const cat = card.getAttribute('data-tool-category') || '';
+            return filterValue === 'all' || cat.toLowerCase().includes(filterValue.toLowerCase());
+        });
+
+        if (currentMatching.length === 0) return;
+
+        // Render 3 complete sets of cards for bidirectional seamless looping
+        const copies = 3;
+        for (let i = 0; i < copies; i++) {
+            currentMatching.forEach(card => {
+                const clone = card.cloneNode(true);
+                clone.style.display = 'flex';
+                track.appendChild(clone);
+            });
+        }
+
+        // Measure metrics and set initial scroll position to the start of set 2
+        requestAnimationFrame(() => {
+            updateMetrics();
+            if (loopWidth > 0) {
+                trackWrapper.scrollLeft = loopWidth;
+            }
+        });
+    }
+
+    // Filter Button Handlers
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const filterValue = btn.getAttribute('data-tool-filter') || 'all';
-
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-
-            cards.forEach(card => {
-                const cat = card.getAttribute('data-tool-category') || '';
-                const matches = filterValue === 'all' || cat.toLowerCase().includes(filterValue.toLowerCase());
-                if (matches) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            trackWrapper.scrollTo({ left: 0, behavior: 'smooth' });
+            buildTrack(filterValue);
         });
     });
 
+    // Arrow Button Handlers with smooth manual navigation
     if (prevBtn) {
         prevBtn.addEventListener('click', () => {
+            isPaused = true;
             trackWrapper.scrollBy({ left: -280, behavior: 'smooth' });
+            clearTimeout(resumeTimeout);
+            resumeTimeout = setTimeout(() => { isPaused = false; }, 1800);
         });
     }
 
     if (nextBtn) {
         nextBtn.addEventListener('click', () => {
+            isPaused = true;
             trackWrapper.scrollBy({ left: 280, behavior: 'smooth' });
+            clearTimeout(resumeTimeout);
+            resumeTimeout = setTimeout(() => { isPaused = false; }, 1800);
         });
     }
 
-    let isPaused = false;
-    let autoScrollInterval = setInterval(() => {
-        if (isPaused) return;
-        if (trackWrapper.scrollLeft + trackWrapper.clientWidth >= trackWrapper.scrollWidth - 10) {
-            trackWrapper.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-            trackWrapper.scrollBy({ left: 1.2, behavior: 'auto' });
-        }
-    }, 35);
-
+    // Mouse & Touch Pause / Resume
     trackWrapper.addEventListener('mouseenter', () => { isPaused = true; });
     trackWrapper.addEventListener('mouseleave', () => { isPaused = false; });
     trackWrapper.addEventListener('touchstart', () => { isPaused = true; }, { passive: true });
     trackWrapper.addEventListener('touchend', () => {
-        setTimeout(() => { isPaused = false; }, 1500);
+        clearTimeout(resumeTimeout);
+        resumeTimeout = setTimeout(() => { isPaused = false; }, 1800);
     }, { passive: true });
+
+    // Desktop Click-and-Drag Horizontal Scroll
+    let isDragging = false;
+    let startX = 0;
+    let initialScrollLeft = 0;
+
+    trackWrapper.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        isPaused = true;
+        startX = e.pageX - trackWrapper.offsetLeft;
+        initialScrollLeft = trackWrapper.scrollLeft;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - trackWrapper.offsetLeft;
+        const walk = (x - startX) * 1.4;
+        trackWrapper.scrollLeft = initialScrollLeft - walk;
+    });
+
+    window.addEventListener('mouseup', () => {
+        if (isDragging) {
+            isDragging = false;
+            clearTimeout(resumeTimeout);
+            resumeTimeout = setTimeout(() => { isPaused = false; }, 1200);
+        }
+    });
+
+    // Seamless Boundary Teleporting (Bidirectional)
+    function checkWrapAround() {
+        if (loopWidth <= 0) return;
+        if (trackWrapper.scrollLeft >= loopWidth * 2) {
+            trackWrapper.scrollLeft -= loopWidth;
+        } else if (trackWrapper.scrollLeft <= 5) {
+            trackWrapper.scrollLeft += loopWidth;
+        }
+    }
+
+    trackWrapper.addEventListener('scroll', checkWrapAround, { passive: true });
+
+    window.addEventListener('resize', () => {
+        updateMetrics();
+    });
+
+    // Silky Continuous Animation Loop via requestAnimationFrame
+    function animate(currentTime) {
+        if (!lastTime) lastTime = currentTime;
+        const delta = Math.min(currentTime - lastTime, 50); // Cap delta to prevent jump on tab focus
+        lastTime = currentTime;
+
+        if (!isPaused && loopWidth > 0) {
+            // Constant velocity gliding (~42px / second)
+            trackWrapper.scrollLeft += 0.042 * delta;
+            checkWrapAround();
+        }
+
+        animationFrameId = requestAnimationFrame(animate);
+    }
+
+    // Initialize initial track and start continuous loop
+    buildTrack('all');
+    animationFrameId = requestAnimationFrame(animate);
 }
 
 // --- 11. QUICK PREVIEW MODAL ---

@@ -929,10 +929,17 @@ section {
 
 .tools-track-wrapper {
     overflow-x: auto;
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding: 10px 4px;
+    padding: 12px 4px 16px 4px;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.tools-track-wrapper:active {
+    cursor: grabbing;
 }
 
 .tools-track-wrapper::-webkit-scrollbar {
@@ -943,6 +950,7 @@ section {
     display: flex;
     gap: 18px;
     width: max-content;
+    will-change: scroll-position;
 }
 
 .tool-card {
@@ -960,6 +968,8 @@ section {
     box-shadow: var(--card-shadow);
     position: relative;
     overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .tool-card:hover {
@@ -976,23 +986,49 @@ section {
 }
 
 .tool-icon-box {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    background: rgba(99, 102, 241, 0.12);
-    border: 1px solid rgba(99, 102, 241, 0.2);
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.3rem;
-    color: var(--accent-primary);
-    transition: var(--transition);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.tool-icon-box svg {
+    width: 26px;
+    height: 26px;
+    display: block;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tool-card:hover .tool-icon-box {
-    background: var(--accent-primary);
-    color: #ffffff;
-    box-shadow: 0 0 15px var(--glow-indigo);
+    background: rgba(99, 102, 241, 0.16);
+    border-color: rgba(99, 102, 241, 0.45);
+    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.28);
+    transform: scale(1.08) translateY(-2px);
+}
+
+.tool-card:hover .tool-icon-box svg {
+    transform: scale(1.08);
+}
+
+/* Light Theme support for tool cards */
+.light-theme .tool-icon-box {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+}
+
+.light-theme .tool-card:hover .tool-icon-box {
+    background: #ffffff;
+    border-color: var(--accent-primary);
+    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.2);
 }
 
 .tool-category-badge {
