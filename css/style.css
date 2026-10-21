@@ -1585,51 +1585,60 @@ section {
     margin-bottom: 55px;
 }
 
-.contact-content {
+.contact-layout {
     display: grid;
-    grid-template-columns: 1fr 1.6fr;
-    gap: 45px;
+    grid-template-columns: 310px 1fr;
+    gap: 32px;
+    align-items: start;
+}
+
+.contact-sidebar {
+    position: sticky;
+    top: 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .info-card {
-    background: var(--bg-elevated);
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    padding: 26px;
-    border-radius: 14px;
-    margin-bottom: 18px;
+    padding: 22px 24px;
+    border-radius: 16px;
     transition: var(--transition);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
+    box-shadow: var(--card-shadow);
 }
 
 .info-card:hover {
     border-color: var(--glass-border-hover);
-    transform: translateY(-4px);
+    transform: translateY(-3px);
 }
 
 .info-card i {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     color: var(--accent-indigo);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     display: block;
 }
 
 .info-card h3 {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     margin-bottom: 4px;
     color: var(--text-primary);
 }
 
 .info-card p {
     color: var(--text-muted);
-    font-size: 0.93rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
 }
 
 .social-links {
     display: flex;
     gap: 12px;
-    margin-top: 25px;
+    margin-top: 4px;
 }
 
 .social-link {
@@ -1654,121 +1663,12 @@ section {
     box-shadow: 0 8px 18px var(--glow-indigo);
 }
 
-.contact-form {
-    background: var(--bg-elevated);
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    padding: clamp(20px, 4vw, 38px);
-    border-radius: 18px;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-sizing: border-box;
-    width: 100%;
-}
-
-.form-group {
-    position: relative;
-    margin-bottom: 22px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    padding: clamp(13px, 2.5vw, 16px) clamp(14px, 3vw, 18px);
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid var(--glass-border);
-    border-radius: 10px;
-    color: var(--text-primary);
-    font-family: var(--font-body);
-    font-size: 1rem; /* 16px prevents iOS Safari auto-zoom */
-    transition: var(--transition);
-    outline: none;
-    appearance: none;
-}
-
-.form-group select {
-    cursor: pointer;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
-    background-size: 16px;
-    padding-right: 42px;
-}
-
-.form-group select option {
-    background: #141418;
-    color: #f8fafc;
-}
-
-.form-group textarea {
-    resize: vertical;
-    min-height: 125px;
-}
-
-.form-group label {
-    position: absolute;
-    left: 18px;
-    top: 14px;
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    transition: var(--transition);
-    pointer-events: none;
-}
-
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-    border-color: var(--accent-indigo);
-    background: rgba(99, 102, 241, 0.05);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
-}
-
-/* Floating Label Behavior */
-.form-group input:focus ~ label,
-.form-group input:not(:placeholder-shown) ~ label,
-.form-group textarea:focus ~ label,
-.form-group textarea:not(:placeholder-shown) ~ label,
-.form-group.has-value label,
-.form-group select:focus ~ label,
-.form-group select:valid ~ label {
-    top: -10px;
-    left: 14px;
-    font-size: 0.78rem;
-    padding: 0 6px;
-    background: #141419;
-    color: var(--accent-indigo);
-    border-radius: 4px;
-}
-
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-    color: transparent;
-}
-
-/* Error Validation Highlighting */
-.form-group.has-error input,
-.form-group.has-error textarea,
-.form-group.has-error select {
-    border-color: #ef4444 !important;
-    background: rgba(239, 68, 68, 0.08) !important;
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.22) !important;
-    animation: shakeInput 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-}
-
-.form-group.has-error label {
-    color: #f87171 !important;
-}
-
-@keyframes shakeInput {
-    10%, 90% { transform: translate3d(-1px, 0, 0); }
-    20%, 80% { transform: translate3d(2px, 0, 0); }
-    30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
-    40%, 60% { transform: translate3d(3px, 0, 0); }
+/* Anti-Spam Honeypot Field */
+.honeypot-field {
+    display: none !important;
+    visibility: hidden !important;
+    position: absolute !important;
+    left: -9999px !important;
 }
 
 /* Anti-Spam Honeypot Field */
@@ -3000,185 +2900,235 @@ footer {
 }
 
 /* =========================================================
-   PROJECT BRIEF FUNNEL (3-column inquiry generator)
+   PROJECT BRIEF FUNNEL (Unified Inquiry Experience)
    ========================================================= */
-.brief-funnel {
-    --brief-accent: #22d3ee;
-    --brief-accent-rgb: 34, 211, 238;
-    display: grid;
-    grid-template-columns: 1fr 1.2fr 1.1fr;
-    gap: 22px;
-    align-items: stretch;
-    margin-bottom: 55px;
-}
-
-.brief-funnel[data-brief-mode="business"] {
-    --brief-accent: #818cf8;
-    --brief-accent-rgb: 129, 140, 248;
-}
-
-.brief-funnel[data-brief-mode="engineering"] {
-    --brief-accent: #34d399;
-    --brief-accent-rgb: 52, 211, 153;
-}
-
-[data-theme="light"] .brief-funnel { --brief-accent: #0891b2; --brief-accent-rgb: 8, 145, 178; }
-[data-theme="light"] .brief-funnel[data-brief-mode="business"] { --brief-accent: #4338ca; --brief-accent-rgb: 67, 56, 202; }
-[data-theme="light"] .brief-funnel[data-brief-mode="engineering"] { --brief-accent: #059669; --brief-accent-rgb: 5, 150, 105; }
-
-/* Column 1 — selector cards */
-.brief-selector {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-
-.brief-option {
-    --opt-accent: #22d3ee;
-    --opt-accent-rgb: 34, 211, 238;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 14px;
-    align-items: start;
-    width: 100%;
-    text-align: left;
-    padding: 18px;
-    border-radius: 14px;
+.inquiry-panel {
+    --inquiry-accent: #22d3ee;
+    --inquiry-accent-rgb: 34, 211, 238;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    color: var(--text-primary);
-    font-family: var(--font-body);
-    cursor: pointer;
-    transition: var(--transition);
+    border-radius: 18px;
+    padding: clamp(20px, 3.2vw, 32px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    box-sizing: border-box;
+    width: 100%;
 }
 
-.brief-option[data-brief-option="business"] { --opt-accent: #818cf8; --opt-accent-rgb: 129, 140, 248; }
-.brief-option[data-brief-option="engineering"] { --opt-accent: #34d399; --opt-accent-rgb: 52, 211, 153; }
-[data-theme="light"] .brief-option { --opt-accent: #0891b2; --opt-accent-rgb: 8, 145, 178; }
-[data-theme="light"] .brief-option[data-brief-option="business"] { --opt-accent: #4338ca; --opt-accent-rgb: 67, 56, 202; }
-[data-theme="light"] .brief-option[data-brief-option="engineering"] { --opt-accent: #059669; --opt-accent-rgb: 5, 150, 105; }
+.inquiry-panel[data-brief-mode="business"] {
+    --inquiry-accent: #818cf8;
+    --inquiry-accent-rgb: 129, 140, 248;
+}
 
-.brief-option:hover {
-    border-color: rgba(var(--opt-accent-rgb), 0.45);
+.inquiry-panel[data-brief-mode="engineering"] {
+    --inquiry-accent: #34d399;
+    --inquiry-accent-rgb: 52, 211, 153;
+}
+
+[data-theme="light"] .inquiry-panel { --inquiry-accent: #0891b2; --inquiry-accent-rgb: 8, 145, 178; }
+[data-theme="light"] .inquiry-panel[data-brief-mode="business"] { --inquiry-accent: #4338ca; --inquiry-accent-rgb: 67, 56, 202; }
+[data-theme="light"] .inquiry-panel[data-brief-mode="engineering"] { --inquiry-accent: #059669; --inquiry-accent-rgb: 5, 150, 105; }
+
+/* Step Headers */
+.inquiry-step-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.inquiry-step-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, ui-monospace, monospace;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--inquiry-accent);
+    margin-bottom: 12px;
+    transition: color 0.3s ease;
+}
+
+.inquiry-step-label .step-num {
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: rgba(var(--inquiry-accent-rgb), 0.14);
+    border: 1px solid rgba(var(--inquiry-accent-rgb), 0.35);
+    color: var(--inquiry-accent);
+    transition: all 0.3s ease;
+}
+
+/* Step 1: Type Tabs */
+.inquiry-type-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    width: 100%;
+}
+
+.inquiry-tab {
+    --tab-accent: #22d3ee;
+    --tab-accent-rgb: 34, 211, 238;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    cursor: pointer;
+    text-align: left;
+    transition: var(--transition);
+    font-family: var(--font-body);
+}
+
+.inquiry-tab[data-brief-option="business"] { --tab-accent: #818cf8; --tab-accent-rgb: 129, 140, 248; }
+.inquiry-tab[data-brief-option="engineering"] { --tab-accent: #34d399; --tab-accent-rgb: 52, 211, 153; }
+[data-theme="light"] .inquiry-tab { --tab-accent: #0891b2; --tab-accent-rgb: 8, 145, 178; }
+[data-theme="light"] .inquiry-tab[data-brief-option="business"] { --tab-accent: #4338ca; --tab-accent-rgb: 67, 56, 202; }
+[data-theme="light"] .inquiry-tab[data-brief-option="engineering"] { --tab-accent: #059669; --tab-accent-rgb: 5, 150, 105; }
+
+.inquiry-tab:hover {
+    border-color: rgba(var(--tab-accent-rgb), 0.5);
     transform: translateY(-2px);
 }
 
-.brief-option:focus-visible {
-    outline: 2px solid var(--opt-accent);
+.inquiry-tab:focus-visible {
+    outline: 2px solid var(--tab-accent);
     outline-offset: 2px;
 }
 
-.brief-option.is-active {
-    border-color: rgba(var(--opt-accent-rgb), 0.75);
-    background: linear-gradient(135deg, rgba(var(--opt-accent-rgb), 0.14), rgba(var(--opt-accent-rgb), 0.03)), var(--glass-bg);
-    box-shadow: 0 0 0 1px rgba(var(--opt-accent-rgb), 0.25), 0 10px 30px rgba(var(--opt-accent-rgb), 0.18);
+.inquiry-tab.is-active {
+    border-color: rgba(var(--tab-accent-rgb), 0.8);
+    background: linear-gradient(135deg, rgba(var(--tab-accent-rgb), 0.16), rgba(var(--tab-accent-rgb), 0.04)), var(--glass-bg);
+    box-shadow: 0 0 0 1px rgba(var(--tab-accent-rgb), 0.3), 0 8px 24px rgba(var(--tab-accent-rgb), 0.2);
 }
 
-.brief-option-icon {
+.inquiry-tab-icon {
     width: 38px;
     height: 38px;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--glass-border);
     color: var(--text-muted);
     font-size: 0.95rem;
+    flex-shrink: 0;
     transition: var(--transition);
 }
 
-.brief-option.is-active .brief-option-icon {
-    color: var(--opt-accent);
-    border-color: rgba(var(--opt-accent-rgb), 0.45);
-    background: rgba(var(--opt-accent-rgb), 0.12);
+.inquiry-tab.is-active .inquiry-tab-icon {
+    color: var(--tab-accent);
+    border-color: rgba(var(--tab-accent-rgb), 0.5);
+    background: rgba(var(--tab-accent-rgb), 0.15);
 }
 
-.brief-option-body {
+.inquiry-tab-body {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 3px;
     min-width: 0;
 }
 
-.brief-option-title {
+.inquiry-tab-title {
     font-family: var(--font-heading);
     font-weight: 700;
-    font-size: 1rem;
-    line-height: 1.3;
+    font-size: 0.95rem;
+    line-height: 1.25;
     color: var(--text-primary);
 }
 
-.brief-option-desc {
-    font-size: 0.84rem;
-    line-height: 1.5;
+.inquiry-tab-desc {
+    font-size: 0.78rem;
+    line-height: 1.4;
     color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.brief-option-dot {
-    width: 16px;
-    height: 16px;
-    margin-top: 3px;
+.inquiry-tab-dot {
+    width: 13px;
+    height: 13px;
     border-radius: 50%;
     border: 1.5px solid var(--text-muted);
-    opacity: 0.6;
+    opacity: 0.5;
+    margin-left: auto;
+    flex-shrink: 0;
     transition: var(--transition);
 }
 
-.brief-option.is-active .brief-option-dot {
+.inquiry-tab.is-active .inquiry-tab-dot {
     opacity: 1;
-    border-color: var(--opt-accent);
-    background: var(--opt-accent);
-    box-shadow: 0 0 12px rgba(var(--opt-accent-rgb), 0.8);
+    border-color: var(--tab-accent);
+    background: var(--tab-accent);
+    box-shadow: 0 0 10px rgba(var(--tab-accent-rgb), 0.85);
 }
 
-/* Column 2 — form */
-.brief-form {
-    padding: 22px;
-    border-radius: 16px;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+/* Step 2: Content Grid (Form + Live Brief) */
+.inquiry-content-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 24px;
+    align-items: stretch;
+}
+
+.inquiry-form {
     display: flex;
     flex-direction: column;
     gap: 14px;
     min-width: 0;
 }
 
-.brief-form-badge {
+.inquiry-form-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-family: 'JetBrains Mono', 'Fira Code', Consolas, ui-monospace, monospace;
-    font-size: 0.72rem;
+    font-size: 0.74rem;
     font-weight: 600;
     letter-spacing: 0.08em;
-    color: var(--brief-accent);
+    color: var(--inquiry-accent);
+    margin-bottom: 2px;
     transition: color 0.3s ease;
 }
 
-.brief-dynamic {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    animation: briefFadeIn 0.35s ease;
+.inquiry-form-badge .badge-sparkle {
+    font-size: 0.85rem;
 }
 
-@keyframes briefFadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
+.form-row-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
 }
 
 .brief-field {
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 6px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .brief-field label {
     font-size: 0.84rem;
     font-weight: 500;
     color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.required-star {
+    color: #f87171;
+    font-weight: 700;
 }
 
 .brief-field input,
@@ -3186,7 +3136,7 @@ footer {
 .brief-field textarea {
     width: 100%;
     box-sizing: border-box;
-    padding: 12px 14px;
+    padding: 11px 14px;
     border-radius: 10px;
     background: var(--input-bg);
     border: 1px solid var(--glass-border);
@@ -3209,8 +3159,8 @@ footer {
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat;
     background-position: right 14px center;
-    background-size: 16px;
-    padding-right: 40px;
+    background-size: 15px;
+    padding-right: 38px;
 }
 
 .brief-field select option {
@@ -3220,30 +3170,47 @@ footer {
 
 .brief-field textarea {
     resize: vertical;
-    min-height: 96px;
+    min-height: 90px;
 }
 
 .brief-field input:focus,
 .brief-field select:focus,
 .brief-field textarea:focus {
-    border-color: rgba(var(--brief-accent-rgb), 0.7);
-    box-shadow: 0 0 0 3px rgba(var(--brief-accent-rgb), 0.15);
+    border-color: rgba(var(--inquiry-accent-rgb), 0.7);
+    box-shadow: 0 0 0 3px rgba(var(--inquiry-accent-rgb), 0.16);
 }
 
-.brief-field.has-error input {
-    border-color: var(--status-error);
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+.brief-field.has-error input,
+.brief-field.has-error select,
+.brief-field.has-error textarea {
+    border-color: #ef4444 !important;
+    background: rgba(239, 68, 68, 0.06) !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+    animation: shakeInput 0.35s ease;
 }
 
-/* Column 3 — live preview */
+.brief-dynamic {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    animation: briefFadeIn 0.35s ease;
+}
+
+@keyframes briefFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Live Brief Preview Box */
 .brief-preview {
     display: flex;
     flex-direction: column;
-    border-radius: 16px;
+    border-radius: 14px;
     background: var(--code-bg);
     border: 1px solid var(--glass-border);
     overflow: hidden;
     min-width: 0;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25);
 }
 
 .brief-preview-bar {
@@ -3255,6 +3222,7 @@ footer {
     font-family: 'JetBrains Mono', 'Fira Code', Consolas, ui-monospace, monospace;
     font-size: 0.78rem;
     color: var(--text-muted);
+    background: rgba(0, 0, 0, 0.15);
 }
 
 .brief-preview-file i {
@@ -3265,7 +3233,7 @@ footer {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    color: var(--brief-accent);
+    color: var(--inquiry-accent);
     font-weight: 600;
 }
 
@@ -3273,22 +3241,22 @@ footer {
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: var(--brief-accent);
+    background: var(--inquiry-accent);
     animation: briefPulse 1.6s ease-in-out infinite;
 }
 
 @keyframes briefPulse {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(var(--brief-accent-rgb), 0.6); }
-    50% { opacity: 0.55; box-shadow: 0 0 0 5px rgba(var(--brief-accent-rgb), 0); }
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(var(--inquiry-accent-rgb), 0.6); }
+    50% { opacity: 0.55; box-shadow: 0 0 0 5px rgba(var(--inquiry-accent-rgb), 0); }
 }
 
 .brief-preview-body {
     flex: 1;
     margin: 0;
     padding: 18px 16px;
-    min-height: 280px;
-    max-height: 460px;
-    overflow: auto;
+    min-height: 270px;
+    max-height: 440px;
+    overflow-y: auto;
     white-space: pre-wrap;
     word-break: break-word;
     font-family: 'JetBrains Mono', 'Fira Code', Consolas, ui-monospace, monospace;
@@ -3301,8 +3269,9 @@ footer {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
-    padding: 16px;
+    padding: 14px 16px;
     border-top: 1px solid var(--glass-border);
+    background: rgba(0, 0, 0, 0.12);
 }
 
 .brief-btn {
@@ -3326,65 +3295,100 @@ footer {
 }
 
 .brief-status:not(:empty) {
-    padding-bottom: 14px;
+    padding-bottom: 12px;
 }
 
 .brief-status.is-error { color: var(--status-error); }
 .brief-status.is-success { color: var(--status-success); }
 
-/* Light mode refinements */
-[data-theme="light"] .brief-option-icon {
+/* Light Mode Overrides */
+[data-theme="light"] .inquiry-tab {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.1);
+}
+
+[data-theme="light"] .inquiry-tab-icon {
     background: #f8fafc;
+}
+
+[data-theme="light"] .inquiry-panel {
+    background: rgba(255, 255, 255, 0.98);
+    border-color: rgba(15, 23, 42, 0.1);
+    box-shadow: var(--card-shadow);
 }
 
 [data-theme="light"] .brief-preview {
     background: #f8fafc;
-    box-shadow: var(--card-shadow);
+    border-color: rgba(15, 23, 42, 0.12);
+    box-shadow: none;
 }
 
-[data-theme="light"] .brief-form {
-    box-shadow: var(--card-shadow);
+[data-theme="light"] .brief-preview-bar {
+    background: rgba(15, 23, 42, 0.03);
+    border-color: rgba(15, 23, 42, 0.08);
 }
 
-/* Responsive */
+[data-theme="light"] .brief-preview-actions {
+    background: rgba(15, 23, 42, 0.02);
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+/* Responsive Layout */
 @media (max-width: 1100px) {
-    .brief-funnel {
-        grid-template-columns: 1fr 1fr;
+    .contact-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
     }
-    .brief-selector {
-        grid-column: 1 / -1;
+    .contact-sidebar {
+        position: static;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
     }
-    .brief-option-dot {
+    #resumeCard {
+        grid-column: 1 / -1;
+    }
+    .social-links {
+        grid-column: 1 / -1;
+        justify-content: center;
+        margin-top: 4px;
+    }
+    .inquiry-tab-desc {
         display: none;
     }
 }
 
 @media (max-width: 768px) {
-    .brief-funnel {
-        grid-template-columns: 1fr;
-        gap: 18px;
-        margin-bottom: 40px;
-    }
-    .brief-selector {
+    .contact-sidebar {
         grid-template-columns: 1fr;
     }
-    .brief-option-dot {
+    .inquiry-type-tabs {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .inquiry-tab-desc {
         display: block;
+    }
+    .inquiry-content-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .form-row-2col {
+        grid-template-columns: 1fr;
+        gap: 14px;
     }
     .brief-preview-body {
         min-height: 220px;
     }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 480px) {
     .brief-preview-actions {
         grid-template-columns: 1fr;
     }
-    .brief-option {
-        padding: 14px;
-        gap: 12px;
+    .inquiry-tab {
+        padding: 12px 14px;
+        gap: 10px;
     }
 }
 

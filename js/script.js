@@ -360,172 +360,7 @@ function initCertificateModal() {
     window.closeCertModal = () => closeModal();
 }
 
-// --- 6. HARDENED ANTI-SPAM SUPABASE CONTACT FORM ---
-// --- 6. RESPONSIVE CONTACT FORM WITH GMAIL COMPOSE INTEGRATION ---
-function initContactForm() {
-    const contactForm = document.getElementById('contactForm');
-    if (!contactForm) return;
-
-    const statusEl = document.getElementById('formStatus') || createStatusElement(contactForm);
-
-    function createStatusElement(form) {
-        const div = document.createElement('div');
-        div.id = 'formStatus';
-        div.setAttribute('role', 'status');
-        div.setAttribute('aria-live', 'polite');
-        form.appendChild(div);
-        return div;
-    }
-
-    const nameInput = document.getElementById('name');
-    const emailInput = document.getElementById('email');
-    const serviceSelect = document.getElementById('service');
-    const subjectInput = document.getElementById('subject');
-    const messageInput = document.getElementById('message');
-    const honeypot = document.getElementById('website_url');
-
-    const inputs = [nameInput, emailInput, serviceSelect, subjectInput, messageInput];
-
-    // Real-time floating label sync & error clearing
-    inputs.forEach(input => {
-        if (!input) return;
-        const syncValue = () => {
-            const hasVal = Boolean(input.value && input.value.trim() !== '');
-            input.parentElement.classList.toggle('has-value', hasVal);
-            if (hasVal) {
-                input.parentElement.classList.remove('has-error');
-            }
-        };
-
-        input.addEventListener('input', syncValue);
-        input.addEventListener('change', syncValue);
-        input.addEventListener('blur', syncValue);
-        syncValue();
-    });
-
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        // 1. Anti-spam honeypot verification
-        if (honeypot && honeypot.value.trim() !== '') {
-            console.warn('Bot submission blocked via honeypot.');
-            statusEl.className = 'success';
-            statusEl.innerHTML = '<i class="fas fa-check-circle"></i> Message received. Thank you!';
-            contactForm.reset();
-            return;
-        }
-
-        // 2. Extract input values
-        const name = nameInput ? nameInput.value.trim() : '';
-        const email = emailInput ? emailInput.value.trim() : '';
-        const service = serviceSelect ? serviceSelect.value.trim() : '';
-        const subject = subjectInput ? subjectInput.value.trim() : '';
-        const message = messageInput ? messageInput.value.trim() : '';
-
-        // 3. Clear previous error indicators
-        inputs.forEach(input => {
-            if (input && input.parentElement) {
-                input.parentElement.classList.remove('has-error');
-            }
-        });
-        statusEl.className = '';
-        statusEl.innerHTML = '';
-
-        // 4. Form Validation for all required fields
-        const errors = [];
-        let firstInvalidField = null;
-
-        if (!name) {
-            errors.push('Please enter your name.');
-            if (nameInput) {
-                nameInput.parentElement.classList.add('has-error');
-                if (!firstInvalidField) firstInvalidField = nameInput;
-            }
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!email) {
-            errors.push('Please enter your email address.');
-            if (emailInput) {
-                emailInput.parentElement.classList.add('has-error');
-                if (!firstInvalidField) firstInvalidField = emailInput;
-            }
-        } else if (!emailRegex.test(email)) {
-            errors.push('Please enter a valid email address (e.g., name@example.com).');
-            if (emailInput) {
-                emailInput.parentElement.classList.add('has-error');
-                if (!firstInvalidField) firstInvalidField = emailInput;
-            }
-        }
-
-        if (!service) {
-            errors.push('Please select a service category.');
-            if (serviceSelect) {
-                serviceSelect.parentElement.classList.add('has-error');
-                if (!firstInvalidField) firstInvalidField = serviceSelect;
-            }
-        }
-
-        if (!subject) {
-            errors.push('Please enter a subject.');
-            if (subjectInput) {
-                subjectInput.parentElement.classList.add('has-error');
-                if (!firstInvalidField) firstInvalidField = subjectInput;
-            }
-        }
-
-        if (!message) {
-            errors.push('Please write your message.');
-            if (messageInput) {
-                messageInput.parentElement.classList.add('has-error');
-                if (!firstInvalidField) firstInvalidField = messageInput;
-            }
-        }
-
-        if (errors.length > 0) {
-            statusEl.className = 'error';
-            statusEl.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${errors[0]}`;
-            if (firstInvalidField) {
-                firstInvalidField.focus();
-            }
-            return;
-        }
-
-        // 5. Structure Email Content according to specifications
-        const recipient = 'floreskenneth319@gmail.com';
-        const formattedSubject = `[${service}] - ${subject}`;
-        const formattedBody = `Name: ${name}\nEmail: ${email}\nService Category: ${service}\n\nMessage:\n${message}`;
-
-        // 6. Generate Gmail Web Intent & fallback mailto URL
-        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(recipient)}&su=${encodeURIComponent(formattedSubject)}&body=${encodeURIComponent(formattedBody)}`;
-        const mailtoUrl = `mailto:${encodeURIComponent(recipient)}?subject=${encodeURIComponent(formattedSubject)}&body=${encodeURIComponent(formattedBody)}`;
-
-        // 7. Visual Feedback & Trigger Action
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        const originalBtnHtml = submitBtn ? submitBtn.innerHTML : 'Transmit Message';
-
-        if (submitBtn) {
-            submitBtn.innerHTML = '<i class="fas fa-paper-plane fa-spin"></i> Launching Gmail...';
-            submitBtn.disabled = true;
-            setTimeout(() => {
-                submitBtn.innerHTML = originalBtnHtml;
-                submitBtn.disabled = false;
-            }, 3000);
-        }
-
-        statusEl.className = 'success';
-        statusEl.innerHTML = `
-            <i class="fas fa-check-circle"></i> <strong>Opening Gmail compose...</strong><br>
-            <span style="font-size:0.85rem; opacity:0.9;">If Gmail did not open automatically, <a href="${mailtoUrl}" style="color:inherit;text-decoration:underline;font-weight:600;">click here to open your default email app</a>.</span>
-        `;
-
-        // Direct action: open Gmail compose in new tab
-        const opened = window.open(gmailUrl, '_blank', 'noopener,noreferrer');
-        if (!opened || opened.closed || typeof opened.closed === 'undefined') {
-            window.location.href = mailtoUrl;
-        }
-    });
-}
+// (Old contact form merged into initBriefFunnel below)
 
 // --- 7. ACCESSIBLE RESUME / CV MODAL ---
 function initResumeModal() {
@@ -1041,9 +876,11 @@ function initDirectEmailCard() {
         );
         const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${subject}&body=${body}`;
         
-        // Direct action: Open Gmail compose in a new tab
-        const opened = window.open(gmailUrl, '_blank', 'noopener,noreferrer');
-        if (!opened || opened.closed || typeof opened.closed === 'undefined') {
+        // Open Gmail compose in a new tab without passing 'noopener' to window.open (which causes null return)
+        const win = window.open(gmailUrl, '_blank');
+        if (win) {
+            try { win.opener = null; } catch (err) { /* ignore */ }
+        } else {
             // Fallback for pop-up blockers: standard mailto link
             window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
         }
@@ -1057,18 +894,21 @@ function initDirectEmailCard() {
     });
 }
 
-// --- PROJECT BRIEF FUNNEL (3-column inquiry generator) ---
+// --- PROJECT BRIEF FUNNEL (Unified inquiry generator) ---
 function initBriefFunnel() {
     const funnel = document.getElementById('briefFunnel');
     if (!funnel) return;
 
     const RECIPIENT = 'floreskenneth319@gmail.com';
-    const options = funnel.querySelectorAll('.brief-option');
+    const options = funnel.querySelectorAll('.inquiry-tab');
     const dynamicWrap = document.getElementById('briefDynamicFields');
     const badgeText = document.getElementById('briefBadgeText');
     const preview = document.getElementById('briefPreview');
     const nameInput = document.getElementById('briefName');
     const contactInput = document.getElementById('briefContact');
+    const fieldWrapName = document.getElementById('fieldWrapName');
+    const fieldWrapContact = document.getElementById('fieldWrapContact');
+    const honeypot = document.getElementById('website_url');
     const copyBtn = document.getElementById('briefCopyBtn');
     const sendBtn = document.getElementById('briefSendBtn');
     const statusEl = document.getElementById('briefStatus');
@@ -1078,9 +918,9 @@ function initBriefFunnel() {
     const MODES = {
         capstone: {
             label: '1. Capstone / Academic System',
-            short: 'Capstone / Academic System',
+            short: 'Capstone / Academic',
             badge: 'CAPSTONE / ACADEMIC SYSTEM BRIEF',
-            detailsHeading: 'Project details',
+            detailsHeading: 'System Requirements',
             fields: [
                 { key: 'school', label: 'School / Program', type: 'text', placeholder: 'e.g., BSIT — 4th Year' },
                 { key: 'platform', label: 'Target Platform', type: 'select', options: ['Mobile App (Flutter)', 'Web System (Laravel / PHP)', 'Web + Mobile (Full Stack)', 'Firebase Cloud System', 'Not sure yet'] },
@@ -1091,9 +931,9 @@ function initBriefFunnel() {
         },
         business: {
             label: '2. Business Web & Mobile App',
-            short: 'Business Web & Mobile App',
+            short: 'Business Web & App',
             badge: 'BUSINESS WEB & MOBILE APP BRIEF',
-            detailsHeading: 'Project details',
+            detailsHeading: 'System Requirements',
             fields: [
                 { key: 'brand', label: 'Business / Brand Name', type: 'text', placeholder: 'e.g., Santos Bakery Co.' },
                 { key: 'product', label: 'Product Type', type: 'select', options: ['Web Dashboard / Portal', 'Customer Mobile App', 'Booking / Inventory System', 'Landing Page / Website', 'Web + Mobile Bundle'] },
@@ -1106,7 +946,7 @@ function initBriefFunnel() {
             label: '3. Full-Time / Contract Engineering Role',
             short: 'Engineering Role',
             badge: 'ENGINEERING ROLE RECRUITMENT BRIEF',
-            detailsHeading: 'Role details',
+            detailsHeading: 'Role Details',
             fields: [
                 { key: 'company', label: 'Company / Team', type: 'text', placeholder: 'e.g., Tech Corp — Platform Team' },
                 { key: 'role', label: 'Role', type: 'select', options: ['Full-Stack Developer', 'Flutter Mobile Engineer', 'Systems Developer', 'Frontend Developer', 'Backend Developer'] },
@@ -1122,53 +962,75 @@ function initBriefFunnel() {
     let mode = funnel.getAttribute('data-brief-mode') || 'capstone';
     if (!MODES[mode]) mode = 'capstone';
 
+    function createFieldElement(field, config, values) {
+        const id = `brief_${mode}_${field.key}`;
+        const wrap = document.createElement('div');
+        wrap.className = 'brief-field';
+        wrap.id = `fieldWrap_${mode}_${field.key}`;
+
+        const label = document.createElement('label');
+        label.htmlFor = id;
+        label.textContent = field.label;
+
+        let control;
+        if (field.type === 'select') {
+            control = document.createElement('select');
+            field.options.forEach(opt => {
+                const o = document.createElement('option');
+                o.value = opt;
+                o.textContent = opt;
+                control.appendChild(o);
+            });
+            if (values[field.key] === undefined) values[field.key] = field.options[0];
+        } else if (field.type === 'textarea') {
+            control = document.createElement('textarea');
+            control.rows = 4;
+            control.placeholder = field.placeholder || '';
+        } else {
+            control = document.createElement('input');
+            control.type = 'text';
+            control.placeholder = field.placeholder || '';
+        }
+
+        control.id = id;
+        control.name = field.key;
+        control.value = values[field.key] || '';
+
+        const update = () => {
+            values[field.key] = control.value;
+            wrap.classList.remove('has-error');
+            renderPreview();
+        };
+        control.addEventListener('input', update);
+        control.addEventListener('change', update);
+
+        wrap.appendChild(label);
+        wrap.appendChild(control);
+        return wrap;
+    }
+
     function renderFields() {
         const config = MODES[mode];
         const values = state[mode];
         dynamicWrap.textContent = '';
 
+        let currentRow = null;
         config.fields.forEach(field => {
-            const id = `brief_${mode}_${field.key}`;
-            const wrap = document.createElement('div');
-            wrap.className = 'brief-field';
-
-            const label = document.createElement('label');
-            label.htmlFor = id;
-            label.textContent = field.label;
-
-            let control;
-            if (field.type === 'select') {
-                control = document.createElement('select');
-                field.options.forEach(opt => {
-                    const o = document.createElement('option');
-                    o.value = opt;
-                    o.textContent = opt;
-                    control.appendChild(o);
-                });
-                if (values[field.key] === undefined) values[field.key] = field.options[0];
-            } else if (field.type === 'textarea') {
-                control = document.createElement('textarea');
-                control.rows = 4;
-                control.placeholder = field.placeholder || '';
+            const wrap = createFieldElement(field, config, values);
+            if (field.type === 'textarea') {
+                currentRow = null;
+                dynamicWrap.appendChild(wrap);
             } else {
-                control = document.createElement('input');
-                control.type = 'text';
-                control.placeholder = field.placeholder || '';
+                if (!currentRow || currentRow.children.length >= 2) {
+                    currentRow = document.createElement('div');
+                    currentRow.className = 'form-row-2col';
+                    dynamicWrap.appendChild(currentRow);
+                }
+                currentRow.appendChild(wrap);
             }
-
-            control.id = id;
-            control.name = field.key;
-            control.value = values[field.key] || '';
-            const update = () => { values[field.key] = control.value; renderPreview(); };
-            control.addEventListener('input', update);
-            control.addEventListener('change', update);
-
-            wrap.appendChild(label);
-            wrap.appendChild(control);
-            dynamicWrap.appendChild(wrap);
         });
 
-        // Restart the fade-in transition on mode switch
+        // Restart fade-in transition on mode switch
         dynamicWrap.style.animation = 'none';
         void dynamicWrap.offsetWidth;
         dynamicWrap.style.animation = '';
@@ -1177,8 +1039,8 @@ function initBriefFunnel() {
     function buildBrief() {
         const config = MODES[mode];
         const values = state[mode];
-        const name = nameInput.value.trim();
-        const contact = contactInput.value.trim();
+        const name = nameInput ? nameInput.value.trim() : '';
+        const contact = contactInput ? contactInput.value.trim() : '';
         const lines = [
             'Hi John Kenneth,',
             '',
@@ -1186,7 +1048,7 @@ function initBriefFunnel() {
             '',
             `— ${config.badge} —`,
             `Name: ${name || '[your name]'}`,
-            `Contact: ${contact || '[your email or handle]'}`
+            `Email: ${contact || '[your email]'}`
         ];
 
         config.fields.forEach(field => {
@@ -1203,10 +1065,13 @@ function initBriefFunnel() {
     }
 
     function renderPreview() {
-        preview.textContent = buildBrief();
+        if (preview) {
+            preview.textContent = buildBrief();
+        }
     }
 
     function setStatus(message, type) {
+        if (!statusEl) return;
         statusEl.textContent = message;
         statusEl.classList.toggle('is-error', type === 'error');
         statusEl.classList.toggle('is-success', type === 'success');
@@ -1221,7 +1086,7 @@ function initBriefFunnel() {
             opt.classList.toggle('is-active', active);
             opt.setAttribute('aria-checked', active ? 'true' : 'false');
         });
-        badgeText.textContent = MODES[mode].badge;
+        if (badgeText) badgeText.textContent = MODES[mode].badge;
         setStatus('', null);
         renderFields();
         renderPreview();
@@ -1242,12 +1107,19 @@ function initBriefFunnel() {
         });
     });
 
-    [nameInput, contactInput].forEach(input => {
-        input.addEventListener('input', () => {
-            input.closest('.brief-field').classList.remove('has-error');
+    if (nameInput) {
+        nameInput.addEventListener('input', () => {
+            if (fieldWrapName) fieldWrapName.classList.remove('has-error');
             renderPreview();
         });
-    });
+    }
+
+    if (contactInput) {
+        contactInput.addEventListener('input', () => {
+            if (fieldWrapContact) fieldWrapContact.classList.remove('has-error');
+            renderPreview();
+        });
+    }
 
     // Copy Brief
     function fallbackCopy(text) {
@@ -1265,69 +1137,87 @@ function initBriefFunnel() {
     }
 
     let copyTimer = null;
-    copyBtn.addEventListener('click', async () => {
-        const text = buildBrief();
-        let ok = false;
-        try {
-            if (navigator.clipboard && window.isSecureContext) {
-                await navigator.clipboard.writeText(text);
-                ok = true;
-            } else {
+    if (copyBtn) {
+        copyBtn.addEventListener('click', async () => {
+            const text = buildBrief();
+            let ok = false;
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(text);
+                    ok = true;
+                } else {
+                    ok = fallbackCopy(text);
+                }
+            } catch (err) {
                 ok = fallbackCopy(text);
             }
-        } catch (err) {
-            ok = fallbackCopy(text);
-        }
 
-        const labelEl = copyBtn.querySelector('span');
-        if (ok) {
-            copyBtn.classList.add('is-copied');
-            labelEl.textContent = 'Copied!';
-            setStatus('Brief copied to clipboard.', 'success');
-        } else {
-            setStatus('Copy failed — please select the text manually.', 'error');
-        }
-        clearTimeout(copyTimer);
-        copyTimer = setTimeout(() => {
-            copyBtn.classList.remove('is-copied');
-            labelEl.textContent = 'Copy Brief';
-        }, 2000);
-    });
+            const labelEl = copyBtn.querySelector('span');
+            if (ok) {
+                copyBtn.classList.add('is-copied');
+                if (labelEl) labelEl.textContent = 'Copied!';
+                setStatus('Brief copied to clipboard.', 'success');
+            } else {
+                setStatus('Copy failed — please select the text manually.', 'error');
+            }
+            clearTimeout(copyTimer);
+            copyTimer = setTimeout(() => {
+                copyBtn.classList.remove('is-copied');
+                if (labelEl) labelEl.textContent = 'Copy Brief';
+            }, 2000);
+        });
+    }
 
-    // Send via Email (Gmail compose, mailto fallback)
-    sendBtn.addEventListener('click', () => {
-        const name = nameInput.value.trim();
-        const contact = contactInput.value.trim();
-        let firstInvalid = null;
+    // Send via Email (Gmail compose with mailto fallback)
+    if (sendBtn) {
+        sendBtn.addEventListener('click', () => {
+            // Anti-spam honeypot detection
+            if (honeypot && honeypot.value.trim() !== '') {
+                setStatus('Inquiry sent successfully.', 'success');
+                return;
+            }
 
-        if (!name) {
-            nameInput.closest('.brief-field').classList.add('has-error');
-            firstInvalid = firstInvalid || nameInput;
-        }
-        if (!contact) {
-            contactInput.closest('.brief-field').classList.add('has-error');
-            firstInvalid = firstInvalid || contactInput;
-        }
-        if (firstInvalid) {
-            setStatus('Please add your name and a way to reach you before sending.', 'error');
-            firstInvalid.focus();
-            return;
-        }
+            const name = nameInput ? nameInput.value.trim() : '';
+            const contact = contactInput ? contactInput.value.trim() : '';
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            let firstInvalid = null;
 
-        const subject = encodeURIComponent(`[${MODES[mode].short}] Brief from ${name}`);
-        const body = encodeURIComponent(buildBrief());
-        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${RECIPIENT}&su=${subject}&body=${body}`;
+            if (!name) {
+                if (fieldWrapName) fieldWrapName.classList.add('has-error');
+                firstInvalid = firstInvalid || nameInput;
+            }
+            if (!contact || !emailRegex.test(contact)) {
+                if (fieldWrapContact) fieldWrapContact.classList.add('has-error');
+                firstInvalid = firstInvalid || contactInput;
+            }
 
-        // Note: passing 'noopener' to window.open makes it return null, so detach opener manually
-        const win = window.open(gmailUrl, '_blank');
-        if (win) {
-            try { win.opener = null; } catch (err) { /* ignore */ }
-            setStatus('Opening Gmail compose in a new tab…', 'success');
-        } else {
-            window.location.href = `mailto:${RECIPIENT}?subject=${subject}&body=${body}`;
-            setStatus('Pop-up blocked — opening your default mail app instead.', 'success');
-        }
-    });
+            if (firstInvalid) {
+                if (!name && !contact) {
+                    setStatus('Please enter your name and a valid email address.', 'error');
+                } else if (!name) {
+                    setStatus('Please enter your name before sending.', 'error');
+                } else {
+                    setStatus('Please enter a valid email address (e.g. name@example.com).', 'error');
+                }
+                firstInvalid.focus();
+                return;
+            }
+
+            const subject = encodeURIComponent(`[${MODES[mode].short}] Brief from ${name}`);
+            const body = encodeURIComponent(buildBrief());
+            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${RECIPIENT}&su=${subject}&body=${body}`;
+
+            // Open Gmail compose in a new tab without passing 'noopener' in features (which causes null return)
+            const win = window.open(gmailUrl, '_blank');
+            if (win) {
+                try { win.opener = null; } catch (err) { /* ignore */ }
+                setStatus('Opening Gmail compose in a new tab…', 'success');
+            } else {
+                window.location.href = `mailto:${RECIPIENT}?subject=${subject}&body=${body}`;
+                setStatus('Pop-up blocked — opening your default mail app instead.', 'success');
+            }
+        });
+    }
 
     renderFields();
     renderPreview();
@@ -1343,8 +1233,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initToolsSlideshow();
     initQuickPreviewModal();
     initCertificateModal();
-    initContactForm();
     initResumeModal();
     initDirectEmailCard();
     initBriefFunnel();
-});
+});

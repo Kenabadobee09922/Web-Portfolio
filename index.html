@@ -868,73 +868,9 @@
           </p>
         </div>
 
-        <!-- Interactive 3-Column Project Brief Funnel -->
-        <div class="brief-funnel" id="briefFunnel" data-brief-mode="capstone">
-          <!-- Column 1: Service Selector -->
-          <div class="brief-selector" role="radiogroup" aria-label="Select inquiry type">
-            <button type="button" class="brief-option is-active" data-brief-option="capstone" role="radio" aria-checked="true" id="briefOptCapstone">
-              <span class="brief-option-icon"><i class="fas fa-graduation-cap"></i></span>
-              <span class="brief-option-body">
-                <span class="brief-option-title">1. Capstone / Academic System</span>
-                <span class="brief-option-desc">End-to-end Flutter apps, GPS/maps integrations, Laravel or Firebase systems, and technical documentation.</span>
-              </span>
-              <span class="brief-option-dot" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="brief-option" data-brief-option="business" role="radio" aria-checked="false" id="briefOptBusiness">
-              <span class="brief-option-icon"><i class="fas fa-briefcase"></i></span>
-              <span class="brief-option-body">
-                <span class="brief-option-title">2. Business Web &amp; Mobile App</span>
-                <span class="brief-option-desc">Operations dashboards, booking or inventory portals, customer mobile apps, and conversion landing pages.</span>
-              </span>
-              <span class="brief-option-dot" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="brief-option" data-brief-option="engineering" role="radio" aria-checked="false" id="briefOptEngineering">
-              <span class="brief-option-icon"><i class="fas fa-code"></i></span>
-              <span class="brief-option-body">
-                <span class="brief-option-title">3. Full-Time / Contract Engineering Role</span>
-                <span class="brief-option-desc">Hiring for Full-Stack, Flutter Mobile, or Systems Developer roles in Metro Manila or remote.</span>
-              </span>
-              <span class="brief-option-dot" aria-hidden="true"></span>
-            </button>
-          </div>
-
-          <!-- Column 2: Dynamic Form -->
-          <form class="brief-form" id="briefForm" novalidate autocomplete="on">
-            <div class="brief-form-badge" id="briefBadge"><span aria-hidden="true">✦</span> <span id="briefBadgeText">CAPSTONE / ACADEMIC SYSTEM BRIEF</span></div>
-
-            <div class="brief-field">
-              <label for="briefName">Your Name</label>
-              <input type="text" id="briefName" name="briefName" placeholder="e.g., Maria Santos" autocomplete="name">
-            </div>
-            <div class="brief-field">
-              <label for="briefContact">Email or Contact Handle</label>
-              <input type="text" id="briefContact" name="briefContact" placeholder="e.g., maria@email.com" autocomplete="email">
-            </div>
-
-            <div class="brief-dynamic" id="briefDynamicFields" aria-live="polite"></div>
-          </form>
-
-          <!-- Column 3: Live Preview -->
-          <div class="brief-preview">
-            <div class="brief-preview-bar">
-              <span class="brief-preview-file"><i class="far fa-file-lines"></i> generated-brief.txt</span>
-              <span class="brief-live"><span class="brief-live-dot" aria-hidden="true"></span> live</span>
-            </div>
-            <pre class="brief-preview-body" id="briefPreview" aria-live="polite" aria-label="Generated brief preview"></pre>
-            <div class="brief-preview-actions">
-              <button type="button" class="btn btn-secondary brief-btn" id="briefCopyBtn">
-                <i class="far fa-copy"></i> <span>Copy Brief</span>
-              </button>
-              <button type="button" class="btn btn-primary glow-effect brief-btn" id="briefSendBtn">
-                <i class="far fa-envelope"></i> <span>Send via Email</span>
-              </button>
-            </div>
-            <div class="brief-status" id="briefStatus" role="status" aria-live="polite"></div>
-          </div>
-        </div>
-
-        <div class="contact-content">
-          <div class="contact-info">
+        <div class="contact-layout">
+          <!-- Left Sidebar: CV, Direct Email, Location, Socials -->
+          <aside class="contact-sidebar">
             <!-- Curriculum Vitae / Resume Card -->
             <div class="info-card cv-card" id="resumeCard">
               <div class="cv-header">
@@ -956,6 +892,7 @@
               </div>
             </div>
 
+            <!-- Direct Email Card -->
             <div class="info-card info-card-clickable" id="directEmailCard" role="button" tabindex="0"
               title="Click to compose an email in Gmail" aria-label="Direct Email to floreskenneth319@gmail.com">
               <i class="fas fa-envelope"></i>
@@ -963,12 +900,15 @@
               <p><a href="https://mail.google.com/mail/?view=cm&fs=1&to=floreskenneth319@gmail.com&su=Project%20Inquiry%20via%20Portfolio%20-%20John%20Kenneth%20Buhay&body=Hi%20John%20Kenneth,%0D%0A%0D%0AI%20reviewed%20your%20portfolio%20and%20would%20like%20to%20connect%20regarding%20a%20project/opportunity:%0D%0A"
                   target="_blank" rel="noopener noreferrer">floreskenneth319@gmail.com</a></p>
             </div>
+
+            <!-- Location Card -->
             <div class="info-card">
               <i class="fas fa-map-marker-alt"></i>
               <h3>Location</h3>
               <p>Caloocan, Metro Manila, Philippines</p>
             </div>
 
+            <!-- Social Links -->
             <div class="social-links" aria-label="Social Profiles">
               <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link"
                 aria-label="LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
@@ -977,52 +917,97 @@
               <a href="mailto:floreskenneth319@gmail.com" class="social-link" aria-label="Email Me Directly"><i
                   class="fas fa-envelope"></i></a>
             </div>
+          </aside>
+
+          <!-- Right: Unified Interactive Inquiry Panel -->
+          <div class="inquiry-panel" id="briefFunnel" data-brief-mode="capstone">
+            <!-- STEP 1: What can I help with? -->
+            <div class="inquiry-step-block">
+              <div class="inquiry-step-label">
+                <span class="step-num">STEP 1</span>
+                <span class="step-text">WHAT CAN I HELP WITH?</span>
+              </div>
+              <div class="inquiry-type-tabs" role="radiogroup" aria-label="Select inquiry type">
+                <button type="button" class="inquiry-tab is-active" data-brief-option="capstone" role="radio" aria-checked="true" id="briefOptCapstone">
+                  <span class="inquiry-tab-icon"><i class="fas fa-graduation-cap"></i></span>
+                  <span class="inquiry-tab-body">
+                    <span class="inquiry-tab-title">1. Capstone / Academic</span>
+                    <span class="inquiry-tab-desc">Flutter apps, GPS/maps, Laravel/Firebase &amp; docs</span>
+                  </span>
+                  <span class="inquiry-tab-dot" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="inquiry-tab" data-brief-option="business" role="radio" aria-checked="false" id="briefOptBusiness">
+                  <span class="inquiry-tab-icon"><i class="fas fa-briefcase"></i></span>
+                  <span class="inquiry-tab-body">
+                    <span class="inquiry-tab-title">2. Business Web &amp; App</span>
+                    <span class="inquiry-tab-desc">Dashboards, portals, client apps &amp; landing pages</span>
+                  </span>
+                  <span class="inquiry-tab-dot" aria-hidden="true"></span>
+                </button>
+                <button type="button" class="inquiry-tab" data-brief-option="engineering" role="radio" aria-checked="false" id="briefOptEngineering">
+                  <span class="inquiry-tab-icon"><i class="fas fa-code"></i></span>
+                  <span class="inquiry-tab-body">
+                    <span class="inquiry-tab-title">3. Engineering Role</span>
+                    <span class="inquiry-tab-desc">Full-Stack, Flutter Mobile, or Systems Developer</span>
+                  </span>
+                  <span class="inquiry-tab-dot" aria-hidden="true"></span>
+                </button>
+              </div>
+            </div>
+
+            <!-- STEP 2: Details & Live Brief Preview -->
+            <div class="inquiry-step-block">
+              <div class="inquiry-step-label">
+                <span class="step-num">STEP 2</span>
+                <span class="step-text">DETAILS &amp; LIVE BRIEF</span>
+              </div>
+              <div class="inquiry-content-grid">
+                <!-- Form Column -->
+                <form class="inquiry-form" id="briefForm" novalidate autocomplete="on">
+                  <!-- Anti-spam honeypot field -->
+                  <input type="text" name="website_url" id="website_url" class="honeypot-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+                  <div class="inquiry-form-badge" id="briefBadge">
+                    <span class="badge-sparkle" aria-hidden="true">✦</span>
+                    <span id="briefBadgeText">CAPSTONE / ACADEMIC SYSTEM BRIEF</span>
+                  </div>
+
+                  <!-- Name and Email 2-Column Row -->
+                  <div class="form-row-2col">
+                    <div class="brief-field" id="fieldWrapName">
+                      <label for="briefName">Your Name <span class="required-star">*</span></label>
+                      <input type="text" id="briefName" name="briefName" placeholder="e.g., Maria Santos" autocomplete="name" required>
+                    </div>
+                    <div class="brief-field" id="fieldWrapContact">
+                      <label for="briefContact">Your Email <span class="required-star">*</span></label>
+                      <input type="email" id="briefContact" name="briefContact" placeholder="e.g., maria@email.com" autocomplete="email" required>
+                    </div>
+                  </div>
+
+                  <!-- Dynamic Mode Fields Container -->
+                  <div class="brief-dynamic" id="briefDynamicFields" aria-live="polite"></div>
+                </form>
+
+                <!-- Live Monospace Brief Preview -->
+                <div class="brief-preview">
+                  <div class="brief-preview-bar">
+                    <span class="brief-preview-file"><i class="far fa-file-lines"></i> generated-brief.txt</span>
+                    <span class="brief-live"><span class="brief-live-dot" aria-hidden="true"></span> live</span>
+                  </div>
+                  <pre class="brief-preview-body" id="briefPreview" aria-live="polite" aria-label="Generated brief preview"></pre>
+                  <div class="brief-preview-actions">
+                    <button type="button" class="btn btn-secondary brief-btn" id="briefCopyBtn">
+                      <i class="far fa-copy"></i> <span>Copy Brief</span>
+                    </button>
+                    <button type="button" class="btn btn-primary glow-effect brief-btn" id="briefSendBtn">
+                      <i class="fas fa-paper-plane"></i> <span>Send via Email</span>
+                    </button>
+                  </div>
+                  <div class="brief-status" id="briefStatus" role="status" aria-live="polite"></div>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <!-- Hardened Contact Form -->
-          <form class="contact-form" id="contactForm" novalidate>
-            <!-- Hidden honeypot anti-spam field -->
-            <input type="text" name="website_url" id="website_url" class="honeypot-field" tabindex="-1"
-              autocomplete="off" aria-hidden="true">
-
-            <div class="form-group">
-              <input type="text" id="name" name="name" placeholder="Your Name" required>
-              <label for="name">Your Name *</label>
-            </div>
-
-            <div class="form-group">
-              <input type="email" id="email" name="email" placeholder="Your Email" required>
-              <label for="email">Your Email *</label>
-            </div>
-
-            <div class="form-group">
-              <select id="service" name="service" required>
-                <option value="" disabled selected hidden></option>
-                <option value="Full-Stack Engineering">Full-Stack Mobile / Web Engineering</option>
-                <option value="UI/UX Prototyping">UI/UX Design & Prototyping</option>
-                <option value="Tech Virtual Assistance">Tech Virtual Assistance & Operations</option>
-                <option value="General Inquiry">General Opportunity / Consulting</option>
-              </select>
-              <label for="service">Service Category *</label>
-            </div>
-
-            <div class="form-group">
-              <input type="text" id="subject" name="subject" placeholder="Subject" required>
-              <label for="subject">Subject *</label>
-            </div>
-
-            <div class="form-group">
-              <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
-              <label for="message">Your Message *</label>
-            </div>
-
-            <button type="submit" class="btn btn-primary glow-effect w-100">
-              Transmit Message <i class="fas fa-paper-plane"></i>
-            </button>
-
-            <!-- Accessible status notification container -->
-            <div id="formStatus" role="status" aria-live="polite"></div>
-          </form>
         </div>
       </div>
     </section>
