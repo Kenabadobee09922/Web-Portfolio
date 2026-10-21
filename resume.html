@@ -235,8 +235,67 @@
       color: #64748b;
     }
 
+    /* Custom Cursor */
+    .cursor-dot,
+    .cursor-outline {
+      display: none;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      body, a, button, .btn {
+        cursor: none !important;
+      }
+
+      .cursor-dot,
+      .cursor-outline {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        border-radius: 50%;
+        z-index: 2147483647;
+        pointer-events: none;
+        will-change: transform, left, top, opacity;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+      }
+
+      .cursor-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #6366f1;
+        box-shadow: 0 0 10px rgba(99, 102, 241, 0.45);
+        transform: translate(-50%, -50%);
+      }
+
+      .cursor-outline {
+        width: 40px;
+        height: 40px;
+        border: 1.5px solid rgba(99, 102, 241, 0.6);
+        transform: translate(-50%, -50%);
+        transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                    height 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                    background-color 0.2s ease,
+                    border-color 0.2s ease,
+                    opacity 0.25s ease;
+      }
+
+      .cursor-outline.hover-effect {
+        width: 58px;
+        height: 58px;
+        background-color: rgba(99, 102, 241, 0.15);
+        border-color: #a855f7;
+        box-shadow: 0 0 16px rgba(168, 85, 247, 0.3);
+      }
+    }
+
     /* Print Styles (Strict A4 Optimization) */
     @media print {
+      .cursor-dot,
+      .cursor-outline {
+        display: none !important;
+      }
+
       body {
         background: transparent !important;
         padding: 0 !important;
@@ -279,6 +338,8 @@
 </head>
 
 <body>
+  <div class="cursor-dot"></div>
+  <div class="cursor-outline"></div>
 
   <!-- Floating Print & Back Action Bar -->
   <div class="action-bar">
@@ -407,6 +468,63 @@
     </section>
   </main>
 
+  <script>
+    (function() {
+      const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (!isFinePointer) return;
+
+      const cursorDot = document.querySelector('.cursor-dot');
+      const cursorOutline = document.querySelector('.cursor-outline');
+      if (!cursorDot || !cursorOutline) return;
+
+      let mouseX = -100, mouseY = -100, outlineX = -100, outlineY = -100, isMoving = false;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        if (!isMoving) {
+          outlineX = mouseX;
+          outlineY = mouseY;
+          isMoving = true;
+          cursorDot.style.opacity = '1';
+          cursorOutline.style.opacity = '1';
+        }
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top = mouseY + 'px';
+      }, { passive: true });
+
+      document.addEventListener('mouseleave', () => {
+        cursorDot.style.opacity = '0';
+        cursorOutline.style.opacity = '0';
+      });
+
+      document.addEventListener('mouseenter', () => {
+        if (isMoving) {
+          cursorDot.style.opacity = '1';
+          cursorOutline.style.opacity = '1';
+        }
+      });
+
+      function render() {
+        if (isMoving) {
+          outlineX += (mouseX - outlineX) * 0.18;
+          outlineY += (mouseY - outlineY) * 0.18;
+          cursorOutline.style.left = outlineX + 'px';
+          cursorOutline.style.top = outlineY + 'px';
+        }
+        requestAnimationFrame(render);
+      }
+      requestAnimationFrame(render);
+
+      const interactive = 'a, button, .btn';
+      document.addEventListener('mouseover', (e) => {
+        if (e.target.closest(interactive)) cursorOutline.classList.add('hover-effect');
+      });
+      document.addEventListener('mouseout', (e) => {
+        if (e.target.closest(interactive)) cursorOutline.classList.remove('hover-effect');
+      });
+    })();
+  </script>
 </body>
 
 </html>

@@ -36,20 +36,46 @@ if (typeof supabase !== 'undefined' && supabase.createClient) {
 // Global modal trigger focus store for accessibility restoration
 let lastActiveModalTrigger = null;
 
-// --- 1. TOUCH-SAFE HIGH-PERFORMANCE CUSTOM CURSOR ---
+// --- 1. TOUCH-SAFE HIGH-PERFORMANCE GLOBAL CUSTOM CURSOR ---
 function initCustomCursor() {
     const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     if (!isFinePointer) return;
 
-    const cursorDot = document.querySelector('.cursor-dot');
-    const cursorOutline = document.querySelector('.cursor-outline');
-    if (!cursorDot || !cursorOutline) return;
+    // Ensure elements exist globally across all pages and frames
+    let cursorDot = document.querySelector('.cursor-dot');
+    let cursorOutline = document.querySelector('.cursor-outline');
+
+    if (!cursorDot) {
+        cursorDot = document.createElement('div');
+        cursorDot.className = 'cursor-dot';
+        document.body.appendChild(cursorDot);
+    }
+    if (!cursorOutline) {
+        cursorOutline = document.createElement('div');
+        cursorOutline.className = 'cursor-outline';
+        document.body.appendChild(cursorOutline);
+    }
 
     let mouseX = -100;
     let mouseY = -100;
     let outlineX = -100;
     let outlineY = -100;
     let isMoving = false;
+    let isVisible = false;
+
+    function showCursor() {
+        if (!isVisible && isMoving) {
+            cursorDot.style.opacity = '1';
+            cursorOutline.style.opacity = '1';
+            isVisible = true;
+        }
+    }
+
+    function hideCursor() {
+        cursorDot.style.opacity = '0';
+        cursorOutline.style.opacity = '0';
+        isVisible = false;
+    }
 
     window.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
@@ -61,14 +87,21 @@ function initCustomCursor() {
             isMoving = true;
         }
 
+        showCursor();
+
         cursorDot.style.left = `${mouseX}px`;
         cursorDot.style.top = `${mouseY}px`;
     }, { passive: true });
 
+    document.addEventListener('mouseleave', hideCursor);
+    document.addEventListener('mouseenter', showCursor);
+    window.addEventListener('blur', hideCursor);
+    window.addEventListener('focus', showCursor);
+
     // Smooth physics loop with requestAnimationFrame (avoids layout thrashing)
     function renderCursor() {
         if (isMoving) {
-            const ease = 0.18;
+            const ease = 0.2;
             outlineX += (mouseX - outlineX) * ease;
             outlineY += (mouseY - outlineY) * ease;
 
@@ -79,8 +112,24 @@ function initCustomCursor() {
     }
     requestAnimationFrame(renderCursor);
 
-    // Event delegation for hover states
-    const interactiveSelector = 'a, button, input, textarea, select, .filter-btn, .project-card, .certificate-card-img, .btn, .hamburger';
+    // Tactile click feedback
+    document.addEventListener('mousedown', () => {
+        cursorOutline.classList.add('cursor-click');
+    });
+    document.addEventListener('mouseup', () => {
+        cursorOutline.classList.remove('cursor-click');
+    });
+
+    // Comprehensive event delegation for interactive hover states across all elements
+    const interactiveSelector = [
+        'a', 'button', 'input', 'textarea', 'select', 'label', 'summary',
+        '[role="button"]', '[role="link"]', '[onclick]', '[tabindex="0"]',
+        '.filter-btn', '.project-card', '.certificate-card-img', '.btn',
+        '.hamburger', '.social-icon', '.social-link', '.nav-links a',
+        '.contact-card', '.cv-card', '.case-nav-card', '.info-card-clickable',
+        '.theme-toggle', '.theme-btn', '.carousel-nav-btn', '.tools-nav-btn',
+        '[data-preview-project]'
+    ].join(', ');
 
     document.addEventListener('mouseover', (e) => {
         if (e.target.closest(interactiveSelector)) {
@@ -853,6 +902,32 @@ function initQuickPreviewModal() {
     window.closeQuickPreview = closePreview;
 }
 
+// --- DIRECT EMAIL GMAIL COMPOSE INTEGRATION ---
+function initDirectEmailCard() {
+    const emailCard = document.getElementById('directEmailCard');
+    if (!emailCard) return;
+
+    emailCard.addEventListener('click', (e) => {
+        e.preventDefault();
+        const recipient = 'floreskenneth319@gmail.com';
+        const subject = encodeURIComponent('Project Inquiry via Portfolio - John Kenneth Buhay');
+        const body = encodeURIComponent(
+            'Hi John Kenneth,\n\n' +
+            'I reviewed your portfolio and would like to get in touch regarding a project or opportunity.\n\n' +
+            'Project Scope / Inquiries:\n\n' +
+            'Best regards,\n'
+        );
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${subject}&body=${body}`;
+        
+        // Direct action: Open Gmail compose in a new tab
+        const opened = window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+        if (!opened || opened.closed || typeof opened.closed === 'undefined') {
+            // Fallback for pop-up blockers: standard mailto link
+            window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+        }
+    });
+}
+
 // --- DOM INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
@@ -865,4 +940,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initCertificateModal();
     initContactForm();
     initResumeModal();
+    initDirectEmailCard();
 });
