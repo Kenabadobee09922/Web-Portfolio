@@ -35,39 +35,33 @@ This guide details how to publish this zero-dependency static portfolio to **Ver
 
 ## 3. One-Click Zero-Cost Deployment Options
 
-### Option A: Vercel (Recommended — Automatic Deploy on Push)
+### Option A: Vercel (Recommended for Clean URLs & Speed)
 1. Commit and push your latest files to GitHub:
    ```bash
    git push -u origin main
    ```
-2. Navigate to [vercel.com](https://vercel.com) and sign in with your GitHub account.
+2. Navigate to [vercel.com](https://vercel.com) and log in with your GitHub account.
 3. Click **"Add New..."** -> **"Project"**.
 4. Locate and click **Import** on `Kenabadobee09922/Web-Portfolio`.
-5. Vercel automatically detects **Vite**:
-   - **Framework Preset**: `Vite`
-   - **Build Command**: `vite build` (or `npm run build`)
-   - **Output Directory**: `dist`
-   - **Install Command**: `npm install`
+5. Keep default settings (Framework: *Other*, Root Directory: `./`).
 6. Click **Deploy**.
-7. Vercel will build and assign an instant production URL (e.g. `https://web-portfolio-jkb.vercel.app`).
-8. Every future `git push` to `main` will automatically trigger an instant preview & production deployment!
+7. Vercel will build and assign an instant HTTPS domain (e.g., `https://web-portfolio-jkb.vercel.app`).
 
 ---
 
-### Option B: Deploying directly with Vercel CLI (Optional)
-If you prefer deploying directly from your terminal:
-1. Run `npx vercel` (or `npm i -g vercel && vercel login`).
-2. Follow the prompt to log in via browser.
-3. Run `npx vercel --prod` to deploy immediately.
-
----
-
-### Option C: GitHub Pages
+### Option B: GitHub Pages (Direct & Native)
 1. Push your repository:
    ```bash
    git push -u origin main
    ```
-2. For GitHub Pages with Vite, set up the official GitHub Actions Vite workflow or deploy the `dist/` directory.
+2. Open your GitHub repository in your browser:
+   `https://github.com/Kenabadobee09922/Web-Portfolio`
+3. Click **Settings** (top tab) -> **Pages** (left navigation bar).
+4. Under **Build and deployment**:
+   * Source: `Deploy from a branch`
+   * Branch: `main` / Folder: `/ (root)`
+5. Click **Save**. Within 60 seconds, your site is live at:
+   `https://kenabadobee09922.github.io/Web-Portfolio/`
 
 ---
 
