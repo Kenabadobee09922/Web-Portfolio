@@ -868,23 +868,26 @@
           </p>
         </div>
 
-        <div class="contact-layout">
-          <!-- Left Sidebar: CV, Direct Email, Location, Socials -->
-          <aside class="contact-sidebar">
-            <!-- Curriculum Vitae / Resume Card -->
+        <div class="contact-wrapper">
+          <!-- Top Row: Compact Contact Info Cards -->
+          <div class="contact-cards-row">
+            <!-- 1. Curriculum Vitae (CV) Card -->
             <div class="info-card cv-card" id="resumeCard">
-              <div class="cv-header">
-                <i class="fas fa-file-invoice"></i>
+              <div class="cv-card-top">
+                <div class="contact-icon-box">
+                  <i class="fas fa-file-invoice"></i>
+                </div>
                 <div>
-                  <h3 style="margin-bottom: 2px;">Curriculum Vitae (CV)</h3>
+                  <h3 class="contact-card-title">Curriculum Vitae (CV)</h3>
+                  <span class="contact-card-sub">BSIT Credentials &amp; Case Studies</span>
                 </div>
               </div>
-              <p style="margin: 10px 0 16px; font-size: 0.92rem; color: var(--text-muted);">
-                Preview or export my official resume with verified BSIT credentials, Flutter engineering projects, and internship records.
+              <p class="contact-card-text">
+                Preview or download my verified resume with Flutter development history and 4 institutional awards.
               </p>
               <div class="cv-actions">
                 <button type="button" class="btn btn-sm btn-primary glow-effect" onclick="openResumeModal()">
-                  <i class="fas fa-eye"></i> View CV Resume
+                  <i class="fas fa-eye"></i> View CV
                 </button>
                 <a href="resume.html" target="_blank" class="btn btn-sm btn-secondary" aria-label="Open printable resume in new tab">
                   <i class="fas fa-file-pdf"></i> Download / Print
@@ -892,34 +895,53 @@
               </div>
             </div>
 
-            <!-- Direct Email Card -->
+            <!-- 2. Direct Email Card -->
             <div class="info-card info-card-clickable" id="directEmailCard" role="button" tabindex="0"
               title="Click to compose an email in Gmail" aria-label="Direct Email to floreskenneth319@gmail.com">
-              <i class="fas fa-envelope"></i>
-              <h3>Direct Email</h3>
-              <p><a href="https://mail.google.com/mail/?view=cm&fs=1&to=floreskenneth319@gmail.com&su=Project%20Inquiry%20via%20Portfolio%20-%20John%20Kenneth%20Buhay&body=Hi%20John%20Kenneth,%0D%0A%0D%0AI%20reviewed%20your%20portfolio%20and%20would%20like%20to%20connect%20regarding%20a%20project/opportunity:%0D%0A"
-                  target="_blank" rel="noopener noreferrer">floreskenneth319@gmail.com</a></p>
+              <div class="cv-card-top">
+                <div class="contact-icon-box">
+                  <i class="fas fa-envelope"></i>
+                </div>
+                <div>
+                  <h3 class="contact-card-title">Direct Email</h3>
+                  <span class="contact-card-sub">Quick Response Guaranteed</span>
+                </div>
+              </div>
+              <p class="contact-card-text">
+                Got an opportunity or consulting inquiry? Reach out directly via Gmail or your preferred mail client.
+              </p>
+              <div class="direct-email-footer">
+                <span class="direct-email-address">floreskenneth319@gmail.com</span>
+                <span class="direct-email-action"><i class="fas fa-external-link-alt"></i> Compose</span>
+              </div>
             </div>
 
-            <!-- Location Card -->
-            <div class="info-card">
-              <i class="fas fa-map-marker-alt"></i>
-              <h3>Location</h3>
-              <p>Caloocan, Metro Manila, Philippines</p>
+            <!-- 3. Location & Socials Card -->
+            <div class="info-card location-social-card">
+              <div class="cv-card-top">
+                <div class="contact-icon-box">
+                  <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div>
+                  <h3 class="contact-card-title">Location &amp; Connect</h3>
+                  <span class="contact-card-sub">Caloocan, Metro Manila, PH</span>
+                </div>
+              </div>
+              <p class="contact-card-text">
+                Available for onsite roles in Metro Manila, hybrid setups, or remote international contracts.
+              </p>
+              <div class="social-links" aria-label="Social Profiles">
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link"
+                  aria-label="LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-link"
+                  aria-label="GitHub Profile"><i class="fab fa-github"></i></a>
+                <a href="mailto:floreskenneth319@gmail.com" class="social-link" aria-label="Email Me Directly"><i
+                    class="fas fa-envelope"></i></a>
+              </div>
             </div>
+          </div>
 
-            <!-- Social Links -->
-            <div class="social-links" aria-label="Social Profiles">
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link"
-                aria-label="LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-link"
-                aria-label="GitHub Profile"><i class="fab fa-github"></i></a>
-              <a href="mailto:floreskenneth319@gmail.com" class="social-link" aria-label="Email Me Directly"><i
-                  class="fas fa-envelope"></i></a>
-            </div>
-          </aside>
-
-          <!-- Right: Unified Interactive Inquiry Panel -->
+          <!-- Bottom: Full-Width Unified Interactive Inquiry Panel -->
           <div class="inquiry-panel" id="briefFunnel" data-brief-mode="capstone">
             <!-- STEP 1: What can I help with? -->
             <div class="inquiry-step-block">
