@@ -740,6 +740,7 @@ function initQuickPreviewModal() {
         const stackEl = modal.querySelector('#previewModalStack');
         const linkEl = modal.querySelector('#previewModalLink');
         const imgEl = modal.querySelector('#previewModalImg');
+        const videoEl = modal.querySelector('#previewModalVideo');
 
         if (titleEl) titleEl.textContent = data.title;
         if (roleEl) roleEl.textContent = data.role;
@@ -749,9 +750,24 @@ function initQuickPreviewModal() {
             linkEl.href = data.link;
             linkEl.textContent = data.linkText || 'Read Full Case Study →';
         }
-        if (imgEl && data.img) {
-            imgEl.src = data.img;
-            imgEl.alt = data.title;
+
+        if (data.video && videoEl) {
+            if (imgEl) imgEl.style.display = 'none';
+            videoEl.style.display = 'block';
+            videoEl.src = data.video;
+            if (data.img) videoEl.poster = data.img;
+            videoEl.load();
+        } else {
+            if (videoEl) {
+                videoEl.pause();
+                videoEl.removeAttribute('src');
+                videoEl.style.display = 'none';
+            }
+            if (imgEl && data.img) {
+                imgEl.src = data.img;
+                imgEl.alt = data.title;
+                imgEl.style.display = 'block';
+            }
         }
 
         if (stackEl && data.stack) {
@@ -765,6 +781,10 @@ function initQuickPreviewModal() {
     function closePreview() {
         modal.classList.remove('active');
         document.body.style.overflow = '';
+        const videoEl = modal.querySelector('#previewModalVideo');
+        if (videoEl) {
+            videoEl.pause();
+        }
     }
 
     if (closeBtn) closeBtn.addEventListener('click', closePreview);
@@ -785,6 +805,7 @@ function initQuickPreviewModal() {
                     role: 'Lead Developer & UI/UX Designer',
                     badge: '2x Capstone Award Winner',
                     img: 'assets/photo/flare-alert-logo.png',
+                    video: 'assets/video/gemini_generated_video_f9a4b30f.mp4',
                     desc: 'Cross-platform mobile emergency reporting application engineered in Flutter, Firebase, and Node.js. Captures real-time GPS coordinates, broadcasts incident alerts to nearby responders, and tracks lifecycle status.',
                     stack: ['Flutter', 'Dart', 'Firebase', 'Firestore', 'Node.js', 'Google APIs'],
                     link: 'project-flare-alert.html',
@@ -795,6 +816,7 @@ function initQuickPreviewModal() {
                     role: 'UI/UX Designer & Prototype Developer',
                     badge: 'Rank 2 & 3 Awards',
                     img: 'assets/photo/ecofertile.jpg',
+                    video: 'assets/video/10000000_6594936010524684_3972209154721685950_n.mp4',
                     desc: 'Award-winning AgriTech interface converting agricultural solid and liquid animal waste into organic fertilizer. Features intuitive stage telemetry, high-contrast monitors, and 3D simulation animation.',
                     stack: ['Figma', 'UI/UX Design', 'HTML5/CSS3', 'JavaScript', '3D Simulation'],
                     link: 'project-ecofertile.html',

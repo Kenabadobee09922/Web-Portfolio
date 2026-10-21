@@ -1,0 +1,11 @@
+{
+  "name": "jkb-web-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "John Kenneth Buhay (JKB) Web Portfolio",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "serve": "node server.js"
+  }
+}
